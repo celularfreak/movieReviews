@@ -7,7 +7,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnimeDTO {
+public class TvSeriesDTO {
     private Long id;
     private String title;
     private LocalDate launchDate;
@@ -15,6 +15,4 @@ public class AnimeDTO {
     private int numberSeasons;
     private int numberEpisodes;
     private LocalDate finishDate;
-    private String animationStudio;
 }
-

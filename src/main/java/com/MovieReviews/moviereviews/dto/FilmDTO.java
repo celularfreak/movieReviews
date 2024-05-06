@@ -7,14 +7,10 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AnimeDTO {
+public class FilmDTO {
     private Long id;
     private String title;
+    private String director;
     private LocalDate launchDate;
     private String genre;
-    private int numberSeasons;
-    private int numberEpisodes;
-    private LocalDate finishDate;
-    private String animationStudio;
 }
-
