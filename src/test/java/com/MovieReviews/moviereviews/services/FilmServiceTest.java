@@ -5,10 +5,12 @@ import com.MovieReviews.moviereviews.repositories.FilmRepository;
 import com.MovieReviews.moviereviews.service.FilmService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class FilmServiceTest {
 
     @Mock
@@ -27,14 +30,13 @@ public class FilmServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
     }
 
     @Test
     public void testGetAllFilms() {
         List<Film> films = new ArrayList<>();
-        films.add(new Film(1L, "Film 1", "Director 1", "2024-01-01", "Action"));
-        films.add(new Film(2L, "Film 2", "Director 2", "2024-02-02", "Comedy"));
+        films.add(new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action"));
+        films.add(new Film(2L, "Film 2", "Director 2", LocalDate.parse("2024-02-02"), "Comedy"));
         when(filmRepository.findAll()).thenReturn(films);
 
         List<Film> result = filmService.getAllFilms();
@@ -44,7 +46,7 @@ public class FilmServiceTest {
 
     @Test
     public void testGetFilmById() {
-        Film film = new Film(1L, "Film 1", "Director 1", "2024-01-01", "Action");
+        Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
         when(filmRepository.findById(1L)).thenReturn(Optional.of(film));
 
         Film result = filmService.getFilmById(1L);
@@ -55,7 +57,7 @@ public class FilmServiceTest {
 
     @Test
     public void testAddFilm() {
-        Film film = new Film(1L, "Film 1", "Director 1", "2024-01-01", "Action");
+        Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
         when(filmRepository.save(any(Film.class))).thenReturn(film);
 
         Film result = filmService.addFilm(film);
@@ -66,7 +68,7 @@ public class FilmServiceTest {
 
     @Test
     public void testUpdateFilm() {
-        Film film = new Film(1L, "Film 1", "Director 1", "2024-01-01", "Action");
+        Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
         when(filmRepository.findById(1L)).thenReturn(Optional.of(film));
         when(filmRepository.save(any(Film.class))).thenReturn(film);
 
