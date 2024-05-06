@@ -1,5 +1,6 @@
 package com.MovieReviews.moviereviews.controllers;
 
+import com.MovieReviews.moviereviews.controller.TvSeriesController;
 import com.MovieReviews.moviereviews.dto.TvSeriesDTO;
 import com.MovieReviews.moviereviews.model.TvSeries;
 import com.MovieReviews.moviereviews.service.TvSeriesService;
@@ -25,7 +26,7 @@ public class TvSeriesControllerTest {
     private TvSeriesService tvSeriesService;
 
     @InjectMocks
-    private TvSeriesControllerTest tvSeriesController;
+    private TvSeriesController tvSeriesController;
 
     @BeforeEach
     public void setUp() {
