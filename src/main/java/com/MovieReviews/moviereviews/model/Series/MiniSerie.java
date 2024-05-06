@@ -7,10 +7,8 @@ import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-//@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class MiniSerie extends TvSeries {
 
     public MiniSerie(@NonNull String title, @NonNull LocalDate launchDate, @NonNull String genre, @NonNull int numberEpisodes, @NonNull LocalDate finishDate) {

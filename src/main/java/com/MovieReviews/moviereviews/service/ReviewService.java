@@ -2,20 +2,16 @@ package com.MovieReviews.moviereviews.service;
 
 import com.MovieReviews.moviereviews.model.Review;
 import com.MovieReviews.moviereviews.repository.ReviewRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-
-    @Autowired
-    public ReviewService(ReviewRepository reviewRepository) {
-        this.reviewRepository = reviewRepository;
-    }
 
     public List<Review> getAllReviews() {
         return reviewRepository.findAll();
@@ -32,12 +28,8 @@ public class ReviewService {
     public Review updateReview(Long id, Review review) {
         Review existingReview = reviewRepository.findById(id).orElse(null);
         if (existingReview != null) {
-            existingReview.setRating(review.getRating());
-            existingReview.setComment(review.getComment());
-            existingReview.setUserId(review.getUserId());
-            existingReview.setTvSeriesId(review.getTvSeriesId());
-            existingReview.setFilmId(review.getFilmId());
-            return reviewRepository.save(existingReview);
+            review.setId(existingReview.getId());
+            return reviewRepository.save(review);
         }
         return null;
     }

@@ -3,7 +3,7 @@ package com.MovieReviews.moviereviews.controller;
 import com.MovieReviews.moviereviews.dto.ReviewDTO;
 import com.MovieReviews.moviereviews.model.Review;
 import com.MovieReviews.moviereviews.service.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,14 +13,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/reviews")
+@AllArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService;
-
-    @Autowired
-    public ReviewController(ReviewService reviewService) {
-        this.reviewService = reviewService;
-    }
 
     @GetMapping
     public ResponseEntity<List<ReviewDTO>> getAllReviews() {
@@ -65,22 +61,22 @@ public class ReviewController {
     // Métodos de conversión de DTO a entidad y viceversa
     private Review convertToEntity(ReviewDTO reviewDTO) {
         return new Review(
+                reviewDTO.getUserId(),
+                reviewDTO.getEntityId(),
                 reviewDTO.getRating(),
                 reviewDTO.getComment(),
-                reviewDTO.getUserId(),
-                reviewDTO.getTvSeriesId(),
-                reviewDTO.getFilmId()
+                reviewDTO.getReviewDate()
         );
     }
 
     private ReviewDTO convertToDTO(Review review) {
         return new ReviewDTO(
                 review.getId(),
+                review.getUserId(),
+                review.getEntityId(),
                 review.getRating(),
                 review.getComment(),
-                review.getUserId(),
-                review.getTvSeriesId(),
-                review.getFilmId()
+                review.getReviewDate()
         );
     }
 }
