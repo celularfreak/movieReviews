@@ -1,6 +1,6 @@
 package com.MovieReviews.moviereviews.model;
 
-import com.MovieReviews.enums.UserType;
+
 import lombok.*;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -14,7 +14,7 @@ import java.io.Serializable;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
-public class User implements Serializable {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
@@ -27,15 +27,12 @@ public class User implements Serializable {
     private String password;
     @NonNull
     private int karma;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "user_type")
-    private UserType userType;
 
-    public User(@NonNull String email, @NonNull String name, @NonNull String password, int karma, UserType userType) {
+
+    public User(@NonNull String email, @NonNull String name, @NonNull String password, int karma) {
         this.email = email;
         this.name = name;
         this.password = password;
         this.karma = karma;
-        this.userType = userType;
     }
 }
