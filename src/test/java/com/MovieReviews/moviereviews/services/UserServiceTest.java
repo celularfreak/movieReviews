@@ -1,7 +1,8 @@
-package com.MovieReviews.moviereviews.service;
+package com.MovieReviews.moviereviews.services;
 
 import com.MovieReviews.moviereviews.model.User;
 import com.MovieReviews.moviereviews.repositories.UserRepository;
+import com.MovieReviews.moviereviews.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

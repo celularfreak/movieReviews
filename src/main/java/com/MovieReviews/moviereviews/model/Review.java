@@ -21,12 +21,12 @@ public class Review {
     private Long userId;
 
     @Column(nullable = false)
-    private Long entityId; // Puede ser la id del film o de la tvserie, dependiendo de la revisión
+    private Long entityId;
 
     @Column(nullable = false)
     private int rating;
 
-    @Column(length = 1000) // Se puede ajustar el tamaño según sea necesario
+    @Column(length = 1000)
     private String comment;
 
     @Column(nullable = false)
