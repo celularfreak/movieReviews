@@ -1,5 +1,6 @@
-package com.MovieReviews.moviereviews.model;
+package com.MovieReviews.moviereviews.model.Series;
 
+import com.MovieReviews.moviereviews.model.TvSeries;
 import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+//@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Anime extends TvSeries {
     private String animationStudio;
 

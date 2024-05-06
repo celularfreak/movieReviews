@@ -1,7 +1,7 @@
 package com.MovieReviews.moviereviews.controller;
 
 import com.MovieReviews.moviereviews.dto.AnimeDTO;
-import com.MovieReviews.moviereviews.model.Anime;
+import com.MovieReviews.moviereviews.model.Series.Anime;
 import com.MovieReviews.moviereviews.service.AnimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

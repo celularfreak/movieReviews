@@ -1,5 +1,6 @@
-package com.MovieReviews.moviereviews.model;
+package com.MovieReviews.moviereviews.model.Series;
 
+import com.MovieReviews.moviereviews.model.TvSeries;
 import lombok.*;
 import jakarta.persistence.*;
 import java.time.LocalDate;
