@@ -1,4 +1,4 @@
-package com.MovieReviews.moviereviews.repository;
+package com.MovieReviews.moviereviews.repositories;
 
 import com.MovieReviews.moviereviews.model.Series.Anime;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.MovieReviews.moviereviews.service;
 
 import com.MovieReviews.moviereviews.model.Review;
-import com.MovieReviews.moviereviews.repository.ReviewRepository;
+import com.MovieReviews.moviereviews.repositories.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

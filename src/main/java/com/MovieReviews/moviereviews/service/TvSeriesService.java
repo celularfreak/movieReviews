@@ -1,7 +1,7 @@
 package com.MovieReviews.moviereviews.service;
 
 import com.MovieReviews.moviereviews.model.TvSeries;
-import com.MovieReviews.moviereviews.repository.TvSeriesRepository;
+import com.MovieReviews.moviereviews.repositories.TvSeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
