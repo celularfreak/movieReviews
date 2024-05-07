@@ -28,8 +28,10 @@ public class ReviewService {
     public Review updateReview(Long id, Review review) {
         Review existingReview = reviewRepository.findById(id).orElse(null);
         if (existingReview != null) {
-            review.setId(existingReview.getId());
-            return reviewRepository.save(review);
+            existingReview.setRating(review.getRating());
+            existingReview.setComment(review.getComment());
+            existingReview.setReviewDate(review.getReviewDate());
+            return reviewRepository.save(existingReview);
         }
         return null;
     }

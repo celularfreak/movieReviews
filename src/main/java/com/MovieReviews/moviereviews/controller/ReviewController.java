@@ -61,8 +61,8 @@ public class ReviewController {
     // Métodos de conversión de DTO a entidad y viceversa
     private Review convertToEntity(ReviewDTO reviewDTO) {
         return new Review(
+                reviewDTO.getId(),
                 reviewDTO.getUserId(),
-                reviewDTO.getEntityId(),
                 reviewDTO.getRating(),
                 reviewDTO.getComment(),
                 reviewDTO.getReviewDate()
@@ -73,7 +73,6 @@ public class ReviewController {
         return new ReviewDTO(
                 review.getId(),
                 review.getUserId(),
-                review.getEntityId(),
                 review.getRating(),
                 review.getComment(),
                 review.getReviewDate()

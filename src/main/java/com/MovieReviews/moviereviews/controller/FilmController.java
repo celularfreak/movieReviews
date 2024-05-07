@@ -65,6 +65,7 @@ public class FilmController {
     // Métodos de conversión de DTO a entidad y viceversa
     private Film convertToEntity(FilmDTO filmDTO) {
         return new Film(
+                filmDTO.getId(),
                 filmDTO.getTitle(),
                 filmDTO.getDirector(),
                 filmDTO.getLaunchDate(),

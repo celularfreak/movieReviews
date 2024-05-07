@@ -62,7 +62,7 @@ public class AnimeControllerTest {
 
     @Test
     public void testAddAnime() {
-        AnimeDTO animeDTO = new AnimeDTO("Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
+        AnimeDTO animeDTO = new AnimeDTO(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
         Anime anime = new Anime(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
         when(animeService.addAnime(any(Anime.class))).thenReturn(anime);
 
@@ -75,7 +75,7 @@ public class AnimeControllerTest {
 
     @Test
     public void testUpdateAnime() {
-        AnimeDTO animeDTO = new AnimeDTO("Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
+        AnimeDTO animeDTO = new AnimeDTO(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
         Anime anime = new Anime(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
         when(animeService.updateAnime(anyLong(), any(Anime.class))).thenReturn(anime);
 

@@ -65,6 +65,7 @@ public class AnimeController {
     // Métodos de conversión de DTO a entidad y viceversa
     private Anime convertToEntity(AnimeDTO animeDTO) {
         return new Anime(
+                animeDTO.getId(),
                 animeDTO.getTitle(),
                 animeDTO.getLaunchDate(),
                 animeDTO.getGenre(),

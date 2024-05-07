@@ -65,6 +65,7 @@ public class MiniSerieController {
     // Métodos de conversión de DTO a entidad y viceversa
     private MiniSerie convertToEntity(MiniSerieDTO miniSerieDTO) {
         return new MiniSerie(
+                miniSerieDTO.getId(),
                 miniSerieDTO.getTitle(),
                 miniSerieDTO.getLaunchDate(),
                 miniSerieDTO.getGenre(),

@@ -12,7 +12,6 @@ import java.time.LocalDate;
 public class ReviewDTO {
     private Long id;
     private Long userId;
-    private Long entityId;
     private int rating;
     private String comment;
     private LocalDate reviewDate;

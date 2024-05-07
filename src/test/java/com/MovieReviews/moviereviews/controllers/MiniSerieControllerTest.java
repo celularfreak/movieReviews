@@ -62,7 +62,7 @@ public class MiniSerieControllerTest {
 
     @Test
     public void testAddMiniSerie() {
-        MiniSerieDTO miniSerieDTO = new MiniSerieDTO("MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
+        MiniSerieDTO miniSerieDTO = new MiniSerieDTO(1l, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
         MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
         when(miniSerieService.addMiniSerie(any(MiniSerie.class))).thenReturn(miniSerie);
 
@@ -75,7 +75,7 @@ public class MiniSerieControllerTest {
 
     @Test
     public void testUpdateMiniSerie() {
-        MiniSerieDTO miniSerieDTO = new MiniSerieDTO("MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
+        MiniSerieDTO miniSerieDTO = new MiniSerieDTO(1l, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
         MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
         when(miniSerieService.updateMiniSerie(anyLong(), any(MiniSerie.class))).thenReturn(miniSerie);
 

@@ -41,6 +41,7 @@ public class TvSeriesControllerTest {
 
         List<TvSeriesDTO> result = tvSeriesController.getAllTvSeries().getBody();
 
+        assert result != null;
         assertEquals(2, result.size());
     }
 
@@ -51,25 +52,27 @@ public class TvSeriesControllerTest {
 
         TvSeriesDTO result = tvSeriesController.getTvSeriesById(1L).getBody();
 
+        assert result != null;
         assertEquals("Series 1", result.getTitle());
         assertEquals(5, result.getNumberSeasons());
     }
 
     @Test
     public void testAddTvSeries() {
-        TvSeriesDTO tvSeriesDTO = new TvSeriesDTO("Series 1", "2024-01-01", "Action", 5, 20, "2025-01-01");
+        TvSeriesDTO tvSeriesDTO = new TvSeriesDTO(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         TvSeries tvSeries = new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         when(tvSeriesService.addTvSeries(any(TvSeries.class))).thenReturn(tvSeries);
 
         TvSeriesDTO result = tvSeriesController.addTvSeries(tvSeriesDTO).getBody();
 
+        assert result != null;
         assertEquals("Series 1", result.getTitle());
         assertEquals(20, result.getNumberEpisodes());
     }
 
     @Test
     public void testUpdateTvSeries() {
-        TvSeriesDTO tvSeriesDTO = new TvSeriesDTO("Series 1", "2024-01-01", "Action", 5, 20, "2025-01-01");
+        TvSeriesDTO tvSeriesDTO = new TvSeriesDTO(1l, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         TvSeries tvSeries = new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         when(tvSeriesService.updateTvSeries(anyLong(), any(TvSeries.class))).thenReturn(tvSeries);
 

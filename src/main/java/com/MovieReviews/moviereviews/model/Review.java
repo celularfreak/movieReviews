@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Review {
     @Id
@@ -21,9 +20,6 @@ public class Review {
     private Long userId;
 
     @Column(nullable = false)
-    private Long entityId;
-
-    @Column(nullable = false)
     private int rating;
 
     @Column(length = 1000)
@@ -33,9 +29,9 @@ public class Review {
     private LocalDate reviewDate;
 
     // Constructor
-    public Review(Long userId, Long entityId, int rating, String comment, LocalDate reviewDate) {
+    public Review(Long id, Long userId, int rating, String comment, LocalDate reviewDate) {
+        this.id = id;
         this.userId = userId;
-        this.entityId = entityId;
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
