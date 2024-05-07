@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 //@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Anime extends TvSeries {
+    @NonNull
     private String animationStudio;
 
     public Anime(@NonNull String title, @NonNull LocalDate launchDate, @NonNull String genre, @NonNull int numberSeasons, @NonNull int numberEpisodes, @NonNull LocalDate finishDate, String animationStudio) {

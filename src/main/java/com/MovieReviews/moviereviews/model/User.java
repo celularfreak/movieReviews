@@ -3,11 +3,10 @@ package com.MovieReviews.moviereviews.model;
 
 import lombok.*;
 import jakarta.persistence.*;
-import java.io.Serializable;
+
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "user_type")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter

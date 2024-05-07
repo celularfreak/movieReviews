@@ -1,5 +1,6 @@
-package com.MovieReviews.moviereviews.controller;
+package com.MovieReviews.moviereviews.controllers;
 
+import com.MovieReviews.moviereviews.controller.UserController;
 import com.MovieReviews.moviereviews.dto.UserDTO;
 import com.MovieReviews.moviereviews.model.User;
 import com.MovieReviews.moviereviews.service.UserService;
@@ -31,7 +32,6 @@ public class UserControllerTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
     }
 
     @Test
@@ -93,4 +93,6 @@ public class UserControllerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
     }
+
+
 }
