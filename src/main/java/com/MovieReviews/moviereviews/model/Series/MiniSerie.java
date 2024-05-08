@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 public class MiniSerie extends TvSeries {
 
-    public MiniSerie(long id, @NonNull String title, @NonNull LocalDate launchDate, @NonNull String genre, @NonNull int numberEpisodes, @NonNull LocalDate finishDate) {
+    public MiniSerie(long id, String title, LocalDate launchDate, String genre, int numberEpisodes, @NonNull LocalDate finishDate) {
         super(id, title, launchDate, genre, 1, numberEpisodes, finishDate);
     }
 

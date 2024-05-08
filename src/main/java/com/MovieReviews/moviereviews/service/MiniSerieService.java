@@ -26,10 +26,12 @@ public class MiniSerieService {
     }
 
     public MiniSerie addMiniSerie(MiniSerie miniSerie) {
+        validateMiniSerie(miniSerie);
         return miniSerieRepository.save(miniSerie);
     }
 
     public MiniSerie updateMiniSerie(Long id, MiniSerie miniSerie) {
+        validateMiniSerie(miniSerie);
         MiniSerie existingMiniSerie = miniSerieRepository.findById(id).orElse(null);
         if (existingMiniSerie != null) {
             existingMiniSerie.setTitle(miniSerie.getTitle());
@@ -44,5 +46,20 @@ public class MiniSerieService {
 
     public void deleteMiniSerie(Long id) {
         miniSerieRepository.deleteById(id);
+    }
+
+    private void validateMiniSerie(MiniSerie miniSerie) {
+        if (miniSerie.getTitle().length() > 100) {
+            throw new IllegalArgumentException("El título no puede tener más de 100 caracteres.");
+        }
+        if (!miniSerie.getGenre().matches("^[a-zA-Z]+(,[a-zA-Z]+)*$")) {
+            throw new IllegalArgumentException("El género debe ser una palabra o varias separadas por comas.");
+        }
+        if (miniSerie.getNumberEpisodes() <= 1) {
+            throw new IllegalArgumentException("El número de episodios debe ser mayor a 1.");
+        }
+        if (miniSerie.getFinishDate() != null && miniSerie.getFinishDate().isBefore(miniSerie.getLaunchDate())) {
+            throw new IllegalArgumentException("La fecha de finalización debe ser posterior a la fecha de lanzamiento.");
+        }
     }
 }

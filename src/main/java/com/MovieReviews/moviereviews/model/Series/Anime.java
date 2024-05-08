@@ -3,6 +3,7 @@ package com.MovieReviews.moviereviews.model.Series;
 import com.MovieReviews.moviereviews.model.TvSeries;
 import lombok.*;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -10,14 +11,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Getter
 @Setter
-//@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Anime extends TvSeries {
-    @NonNull
+    @Column(nullable = false, length = 50)
     private String animationStudio;
 
-    public Anime(long id, @NonNull String title, @NonNull LocalDate launchDate, @NonNull String genre, int numberSeasons, int numberEpisodes, @NonNull LocalDate finishDate, String animationStudio) {
+    public Anime(long id, String title,  LocalDate launchDate,  String genre,
+                 int numberSeasons, int numberEpisodes,  LocalDate finishDate,  String animationStudio) {
         super(id, title, launchDate, genre, numberSeasons, numberEpisodes, finishDate);
         this.animationStudio = animationStudio;
     }
-
 }

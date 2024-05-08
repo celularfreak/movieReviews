@@ -15,28 +15,28 @@ public class TvSeries {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-
-    @NonNull
+    
+    @Column(nullable = false, length = 100)
     private String title;
-
-    @NonNull
-    @Column(name = "launch_date")
+    
+    @Column(nullable = false, name = "launch_date", columnDefinition = "DATE")
     private LocalDate launchDate;
 
-    @NonNull
+    @Column(nullable = false)
     private String genre;
-
-    @NonNull
+    
+    @Column(nullable = false, name = "number_seasons")
     private int numberSeasons;
 
-    @NonNull
+    
+    @Column(nullable = false, name = "number_episodes")
     private int numberEpisodes;
 
-    @NonNull
     @Column(name = "finish_date")
     private LocalDate finishDate;
 
-    public TvSeries(@NonNull String title, @NonNull LocalDate launchDate, @NonNull String genre, @NonNull int numberSeasons, @NonNull int numberEpisodes, @NonNull LocalDate finishDate) {
+    public TvSeries( String title,  LocalDate launchDate,  String genre,
+                     int numberSeasons,  int numberEpisodes, LocalDate finishDate) {
         this.title = title;
         this.launchDate = launchDate;
         this.genre = genre;
