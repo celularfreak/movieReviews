@@ -1,7 +1,6 @@
 package com.MovieReviews.moviereviews.controllers;
 
 import com.MovieReviews.moviereviews.controller.AnimeController;
-import com.MovieReviews.moviereviews.dto.AnimeDTO;
 import com.MovieReviews.moviereviews.model.Series.Anime;
 import com.MovieReviews.moviereviews.service.AnimeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,7 +39,7 @@ public class AnimeControllerTest {
         animeList.add(new Anime(2L, "Anime 2", LocalDate.parse("2024-02-02"), "Comedy", 2, 24, LocalDate.parse("2024-04-02"), "Studio B"));
         when(animeService.getAllAnimes()).thenReturn(animeList);
 
-        ResponseEntity<List<AnimeDTO>> responseEntity = animeController.getAllAnimes();
+        ResponseEntity<List<Anime>> responseEntity = animeController.getAllAnimes();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(2, responseEntity.getBody().size());
@@ -53,7 +50,7 @@ public class AnimeControllerTest {
         Anime anime = new Anime(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
         when(animeService.getAnimeById(1L)).thenReturn(anime);
 
-        ResponseEntity<AnimeDTO> responseEntity = animeController.getAnimeById(1L);
+        ResponseEntity<Anime> responseEntity = animeController.getAnimeById(1L);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("Anime 1", responseEntity.getBody().getTitle());
@@ -62,11 +59,10 @@ public class AnimeControllerTest {
 
     @Test
     public void testAddAnime() {
-        AnimeDTO animeDTO = new AnimeDTO(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
         Anime anime = new Anime(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
         when(animeService.addAnime(any(Anime.class))).thenReturn(anime);
 
-        ResponseEntity<AnimeDTO> responseEntity = animeController.addAnime(animeDTO);
+        ResponseEntity<Anime> responseEntity = animeController.addAnime(anime);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals("Anime 1", responseEntity.getBody().getTitle());
@@ -75,11 +71,10 @@ public class AnimeControllerTest {
 
     @Test
     public void testUpdateAnime() {
-        AnimeDTO animeDTO = new AnimeDTO(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
         Anime anime = new Anime(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
         when(animeService.updateAnime(anyLong(), any(Anime.class))).thenReturn(anime);
 
-        ResponseEntity<AnimeDTO> responseEntity = animeController.updateAnime(1L, animeDTO);
+        ResponseEntity<Anime> responseEntity = animeController.updateAnime(1L, anime);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("Anime 1", responseEntity.getBody().getTitle());

@@ -2,9 +2,7 @@ package com.MovieReviews.moviereviews.controllers;
 
 import com.MovieReviews.moviereviews.controller.FilmController;
 import com.MovieReviews.moviereviews.service.FilmService;
-import com.MovieReviews.moviereviews.dto.FilmDTO;
 import com.MovieReviews.moviereviews.model.Film;
-import com.MovieReviews.moviereviews.repositories.FilmRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,11 +15,8 @@ import org.springframework.http.ResponseEntity;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,7 +39,7 @@ public class FilmControllerTest {
         films.add(new Film(2L, "Film 2", "Director 2", LocalDate.parse("2024-02-02"), "Comedy"));
         when(filmService.getAllFilms()).thenReturn(films);
 
-        List<FilmDTO> result = filmController.getAllFilms().getBody();
+        List<Film> result = filmController.getAllFilms().getBody();
 
         assert result != null;
         assertEquals(2, result.size());
@@ -55,7 +50,7 @@ public class FilmControllerTest {
         Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
         when(filmService.getFilmById(1L)).thenReturn(film);
 
-        FilmDTO result = filmController.getFilmById(1L).getBody();
+        Film result = filmController.getFilmById(1L).getBody();
 
         assert result != null;
         assertEquals("Film 1", result.getTitle());
@@ -64,11 +59,10 @@ public class FilmControllerTest {
 
     @Test
     public void testAddFilm() {
-        FilmDTO filmDTO = new FilmDTO(1l, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
         Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
         when(filmService.addFilm(any(Film.class))).thenReturn(film);
 
-       FilmDTO result = filmController.addFilm(filmDTO).getBody();
+        Film result = filmController.addFilm(film).getBody();
 
         assert result != null;
         assertEquals("Film 1", result.getTitle());
@@ -77,11 +71,10 @@ public class FilmControllerTest {
 
     @Test
     public void testUpdateFilm() {
-        FilmDTO filmDTO = new FilmDTO(1l, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
         Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
         when(filmService.updateFilm(1L, film)).thenReturn(film);
 
-        FilmDTO result = filmController.updateFilm(1L, filmDTO).getBody();
+        Film result = filmController.updateFilm(1L, film).getBody();
 
         assert result != null;
         assertEquals("Film 1", result.getTitle());
@@ -90,7 +83,7 @@ public class FilmControllerTest {
 
     @Test
     public void testDeleteFilm() {
-       doNothing().when(filmService).deleteFilm(1L);
+        doNothing().when(filmService).deleteFilm(1L);
 
         filmController.deleteFilm(1L);
 

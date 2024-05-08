@@ -16,17 +16,20 @@ public class Film {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    @NonNull
+    
+    @Column(nullable = false)
     private String title;
-    @NonNull
+    
+    @Column(nullable = false)
     private String director;
-    @NonNull
-    @Column(name = "launch_date")
+    
+    @Column(nullable = false, name = "launch_date")
     private LocalDate launchDate;
-    @NonNull
+    
+    @Column(nullable = false)
     private String genre;
 
-    public Film(@NonNull String title, @NonNull String director, @NonNull LocalDate launchDate, @NonNull String genre) {
+    public Film( String title,  String director,  LocalDate launchDate,  String genre) {
         this.title = title;
         this.director = director;
         this.launchDate = launchDate;

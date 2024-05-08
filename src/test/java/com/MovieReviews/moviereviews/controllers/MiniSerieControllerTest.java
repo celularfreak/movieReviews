@@ -1,7 +1,6 @@
 package com.MovieReviews.moviereviews.controllers;
 
 import com.MovieReviews.moviereviews.controller.MiniSerieController;
-import com.MovieReviews.moviereviews.dto.MiniSerieDTO;
 import com.MovieReviews.moviereviews.model.Series.MiniSerie;
 import com.MovieReviews.moviereviews.service.MiniSerieService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +40,7 @@ public class MiniSerieControllerTest {
         miniSeries.add(new MiniSerie(2L, "MiniSeries 2", LocalDate.parse("2024-02-02"), "Comedy", 4, LocalDate.parse("2024-03-02")));
         when(miniSerieService.getAllMiniSeries()).thenReturn(miniSeries);
 
-        ResponseEntity<List<MiniSerieDTO>> responseEntity = miniSerieController.getAllMiniSeries();
+        ResponseEntity<List<MiniSerie>> responseEntity = miniSerieController.getAllMiniSeries();
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(2, responseEntity.getBody().size());
@@ -53,7 +51,7 @@ public class MiniSerieControllerTest {
         MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
         when(miniSerieService.getMiniSerieById(1L)).thenReturn(miniSerie);
 
-        ResponseEntity<MiniSerieDTO> responseEntity = miniSerieController.getMiniSerieById(1L);
+        ResponseEntity<MiniSerie> responseEntity = miniSerieController.getMiniSerieById(1L);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("MiniSeries 1", responseEntity.getBody().getTitle());
@@ -62,11 +60,10 @@ public class MiniSerieControllerTest {
 
     @Test
     public void testAddMiniSerie() {
-        MiniSerieDTO miniSerieDTO = new MiniSerieDTO(1l, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
         MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
         when(miniSerieService.addMiniSerie(any(MiniSerie.class))).thenReturn(miniSerie);
 
-        ResponseEntity<MiniSerieDTO> responseEntity = miniSerieController.addMiniSerie(miniSerieDTO);
+        ResponseEntity<MiniSerie> responseEntity = miniSerieController.addMiniSerie(miniSerie);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals("MiniSeries 1", responseEntity.getBody().getTitle());
@@ -75,11 +72,10 @@ public class MiniSerieControllerTest {
 
     @Test
     public void testUpdateMiniSerie() {
-        MiniSerieDTO miniSerieDTO = new MiniSerieDTO(1l, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
         MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
         when(miniSerieService.updateMiniSerie(anyLong(), any(MiniSerie.class))).thenReturn(miniSerie);
 
-        ResponseEntity<MiniSerieDTO> responseEntity = miniSerieController.updateMiniSerie(1L, miniSerieDTO);
+        ResponseEntity<MiniSerie> responseEntity = miniSerieController.updateMiniSerie(1L, miniSerie);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals("MiniSeries 1", responseEntity.getBody().getTitle());
