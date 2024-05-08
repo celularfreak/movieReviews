@@ -1,3 +1,5 @@
+package com.MovieReviews.moviereviews.controller;
+
 import com.MovieReviews.moviereviews.model.Review;
 import com.MovieReviews.moviereviews.service.ReviewService;
 import jakarta.validation.Valid;
