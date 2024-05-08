@@ -1,8 +1,10 @@
 package com.MovieReviews.moviereviews.model;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
-import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Entity
@@ -20,15 +22,17 @@ public class Review {
     private Long userId;
 
     @Column(nullable = false)
+    @Min(value = 0)
+    @Max(value = 10)
     private int rating;
 
-    @Column(length = 1000)
+    @Size(min = 4, max = 1000)
+    @Column(nullable = false, length = 1000)
     private String comment;
 
     @Column(nullable = false)
     private LocalDate reviewDate;
 
-    // Constructor
     public Review(Long id, Long userId, int rating, String comment, LocalDate reviewDate) {
         this.id = id;
         this.userId = userId;
@@ -37,4 +41,3 @@ public class Review {
         this.reviewDate = reviewDate;
     }
 }
-

@@ -1,8 +1,7 @@
-package com.MovieReviews.moviereviews.controller;
-
 import com.MovieReviews.moviereviews.model.Review;
 import com.MovieReviews.moviereviews.service.ReviewService;
-import lombok.AllArgsConstructor;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +10,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reviews")
-@AllArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService;
+
+    @Autowired
+    public ReviewController(ReviewService reviewService) {
+        this.reviewService = reviewService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Review>> getAllReviews() {
@@ -33,18 +36,26 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<Review> addReview(@RequestBody Review review) {
-        Review addedReview = reviewService.addReview(review);
-        return new ResponseEntity<>(addedReview, HttpStatus.CREATED);
+    public ResponseEntity<?> addReview(@Valid @RequestBody Review review) {
+        try {
+            Review addedReview = reviewService.addReview(review);
+            return new ResponseEntity<>(addedReview, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Review> updateReview(@PathVariable Long id, @RequestBody Review review) {
-        Review updatedReview = reviewService.updateReview(id, review);
-        if (updatedReview != null) {
-            return new ResponseEntity<>(updatedReview, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> updateReview(@PathVariable Long id, @Valid @RequestBody Review review) {
+        try {
+            Review updatedReview = reviewService.updateReview(id, review);
+            if (updatedReview != null) {
+                return new ResponseEntity<>(updatedReview, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
