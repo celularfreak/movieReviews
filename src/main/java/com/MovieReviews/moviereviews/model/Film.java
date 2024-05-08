@@ -10,26 +10,25 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Table(uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
 public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
-    
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 100)
     private String title;
-    
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 50)
     private String director;
-    
-    @Column(nullable = false, name = "launch_date")
+
+    @Column(nullable = false, name = "launch_date", columnDefinition = "DATE")
     private LocalDate launchDate;
-    
+
     @Column(nullable = false)
     private String genre;
 
-    public Film( String title,  String director,  LocalDate launchDate,  String genre) {
+    public Film(String title, String director, LocalDate launchDate, String genre) {
         this.title = title;
         this.director = director;
         this.launchDate = launchDate;

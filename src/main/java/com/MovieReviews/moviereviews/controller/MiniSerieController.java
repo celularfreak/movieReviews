@@ -2,10 +2,12 @@ package com.MovieReviews.moviereviews.controller;
 
 import com.MovieReviews.moviereviews.model.Series.MiniSerie;
 import com.MovieReviews.moviereviews.service.MiniSerieService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -37,18 +39,26 @@ public class MiniSerieController {
     }
 
     @PostMapping
-    public ResponseEntity<MiniSerie> addMiniSerie(@RequestBody MiniSerie miniSerie) {
-        MiniSerie addedMiniSerie = miniSerieService.addMiniSerie(miniSerie);
-        return new ResponseEntity<>(addedMiniSerie, HttpStatus.CREATED);
+    public ResponseEntity<?> addMiniSerie(@Valid @RequestBody MiniSerie miniSerie) {
+        try {
+            MiniSerie addedMiniSerie = miniSerieService.addMiniSerie(miniSerie);
+            return new ResponseEntity<>(addedMiniSerie, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MiniSerie> updateMiniSerie(@PathVariable Long id, @RequestBody MiniSerie miniSerie) {
-        MiniSerie updatedMiniSerie = miniSerieService.updateMiniSerie(id, miniSerie);
-        if (updatedMiniSerie != null) {
-            return new ResponseEntity<>(updatedMiniSerie, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> updateMiniSerie(@PathVariable Long id, @Valid @RequestBody MiniSerie miniSerie) {
+        try {
+            MiniSerie updatedMiniSerie = miniSerieService.updateMiniSerie(id, miniSerie);
+            if (updatedMiniSerie != null) {
+                return new ResponseEntity<>(updatedMiniSerie, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

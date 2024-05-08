@@ -2,6 +2,7 @@ package com.MovieReviews.moviereviews.controller;
 
 import com.MovieReviews.moviereviews.model.Series.Anime;
 import com.MovieReviews.moviereviews.service.AnimeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,18 +38,26 @@ public class AnimeController {
     }
 
     @PostMapping
-    public ResponseEntity<Anime> addAnime(@RequestBody Anime anime) {
-        Anime addedAnime = animeService.addAnime(anime);
-        return new ResponseEntity<>(addedAnime, HttpStatus.CREATED);
+    public ResponseEntity<?> addAnime(@Valid @RequestBody Anime anime) {
+        try {
+            Anime addedAnime = animeService.addAnime(anime);
+            return new ResponseEntity<>(addedAnime, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Anime> updateAnime(@PathVariable Long id, @RequestBody Anime anime) {
-        Anime updatedAnime = animeService.updateAnime(id, anime);
-        if (updatedAnime != null) {
-            return new ResponseEntity<>(updatedAnime, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<?> updateAnime(@PathVariable Long id, @Valid @RequestBody Anime anime) {
+        try {
+            Anime updatedAnime = animeService.updateAnime(id, anime);
+            if (updatedAnime != null) {
+                return new ResponseEntity<>(updatedAnime, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
