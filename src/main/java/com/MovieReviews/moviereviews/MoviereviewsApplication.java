@@ -30,16 +30,16 @@ public class MoviereviewsApplication {
 			userService.saveRole(new Role(null, "ROLE_USER"));
 			userService.saveRole(new Role(null, "ROLE_ADMIN"));
 
-			userService.saveUser(new User(null, "Emma Watson", "emma", "1234", new ArrayList<>()));
-			userService.saveUser(new User(null, "Robert Downey Jr.", "robert", "1234", new ArrayList<>()));
-			userService.saveUser(new User(null, "Angelina Jolie", "angelina", "1234", new ArrayList<>()));
-			userService.saveUser(new User(null, "Leonardo DiCaprio", "leo", "1234", new ArrayList<>()));
+			userService.saveUser(new User(null, "Emma Watson", "emma", "1234", new ArrayList<>(), null));
+			userService.saveUser(new User(null, "Robert Downey Jr.", "robert", "1234", new ArrayList<>(),null));
+			userService.saveUser(new User(null, "Angelina Jolie", "angelina", "1234", new ArrayList<>(),null));
+			userService.saveUser(new User(null, "Leonardo DiCaprio", "leo", "1234", new ArrayList<>(),null));
 
 			userService.addRoleToUser("emma", "ROLE_USER");
 			userService.addRoleToUser("robert", "ROLE_USER");
 			userService.addRoleToUser("robert", "ROLE_ADMIN");
 			userService.addRoleToUser("angelina", "ROLE_USER");
-			userService.addRoleToUser("leo", "ROLE_USER");
+			userService.addRoleToUser("leo", "ROLE_ADMIN");
 		};
 	}
 }

@@ -1,5 +1,6 @@
 package com.MovieReviews.moviereviews.security.models;
 
+import com.MovieReviews.moviereviews.model.Review;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,4 +29,6 @@ public class User {
     private String password;
     @ManyToMany(fetch = EAGER)
     private Collection<Role> roles = new ArrayList<>();
+    @ManyToOne
+    Review review;
 }
