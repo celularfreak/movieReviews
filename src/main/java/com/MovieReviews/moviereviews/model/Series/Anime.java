@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
 public class Anime extends TvSeries {
     @Column(nullable = false, length = 50)
     private String animationStudio;

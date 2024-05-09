@@ -19,20 +19,20 @@ public class TvSeries {
     @Column(nullable = false, length = 100)
     private String title;
     
-    @Column(nullable = false, name = "launch_date", columnDefinition = "DATE")
+    @Column(nullable = false, columnDefinition = "DATE")
     private LocalDate launchDate;
 
     @Column(nullable = false)
     private String genre;
     
-    @Column(nullable = false, name = "number_seasons")
+    @Column(nullable = false)
     private int numberSeasons;
 
     
-    @Column(nullable = false, name = "number_episodes")
+    @Column(nullable = false)
     private int numberEpisodes;
 
-    @Column(name = "finish_date")
+    @Column(columnDefinition = "DATE")
     private LocalDate finishDate;
 
     public TvSeries( String title,  LocalDate launchDate,  String genre,

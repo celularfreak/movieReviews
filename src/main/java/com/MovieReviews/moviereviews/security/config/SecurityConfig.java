@@ -45,8 +45,13 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/api/login/**").permitAll()
-                .requestMatchers(GET, "/films").hasAnyAuthority("ROLE_ADMIN")
-                .requestMatchers(GET, "/tv-series").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers("/films/**").permitAll()
+                .requestMatchers("/tv-series/**").permitAll()
+                .requestMatchers(("/reviews/**")).permitAll()
+                .requestMatchers(("/animes/**")).permitAll()
+
+                /*.requestMatchers(GET, "/films").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(GET, "/tv-series").hasAnyAuthority("ROLE_ADMIN")*/
                 .requestMatchers("/error/**").permitAll()
                 .anyRequest().authenticated());
         http.addFilter(customAuthenticationFilter);
