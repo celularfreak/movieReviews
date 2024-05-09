@@ -50,20 +50,8 @@ public class TvSeriesService {
     }
 
     private void validateTvSeries(TvSeries tvSeries) {
-        if (tvSeries.getTitle().length() > 100) {
-            throw new IllegalArgumentException("El título no puede tener más de 100 caracteres.");
-        }
-        if (!tvSeries.getGenre().matches("^[a-zA-Z]+(,[a-zA-Z]+)*$")) {
-            throw new IllegalArgumentException("El género debe ser una palabra o varias separadas por comas.");
-        }
-        if (tvSeries.getNumberSeasons() < 1) {
-            throw new IllegalArgumentException("El número de temporadas debe ser como mínimo 1.");
-        }
-        if (tvSeries.getNumberEpisodes() <= 1) {
-            throw new IllegalArgumentException("El número de episodios debe ser como mínimo 1.");
-        }
-        if (tvSeries.getFinishDate() != null && tvSeries.getFinishDate().isBefore(tvSeries.getLaunchDate())) {
-            throw new IllegalArgumentException("La fecha de finalización debe ser posterior a la fecha de lanzamiento.");
+        if (tvSeriesRepository.findByTitle(tvSeries.getTitle()).isPresent()) {
+            throw new IllegalArgumentException("Ya existe una serie con ese título.");
         }
     }
 }

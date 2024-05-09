@@ -1,6 +1,8 @@
 package com.MovieReviews.moviereviews.model.Series;
 
 import com.MovieReviews.moviereviews.model.TvSeries;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import jakarta.persistence.*;
 
@@ -14,7 +16,9 @@ import java.time.LocalDate;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 public class Anime extends TvSeries {
-    @Column(nullable = false, length = 50)
+
+    @NotNull(message = "El estudio de animación no puede ser nulo")
+    @Pattern(regexp = "^[a-zA-Z0-9\\s.,]{1,100}$", message = "El estudio de animación debe tener entre 1 y 100 letras y admitir, espacios, puntos y comas")
     private String animationStudio;
 
     public Anime(long id, String title,  LocalDate launchDate,  String genre,
