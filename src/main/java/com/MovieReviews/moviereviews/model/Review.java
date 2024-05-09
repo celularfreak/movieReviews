@@ -18,26 +18,44 @@ public class Review {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(nullable = false)
-    private Long userId;
+    private String username;
 
-    @Column(nullable = false)
+    private Long filmId;
+
+    private Long tvSeriesId;
+
+    private Long mediaId;
+
     @Min(value = 0)
     @Max(value = 10)
     private int rating;
 
+    @NotNull
+    @NotBlank
     @Size(min = 4, max = 1000)
-    @Column(nullable = false, length = 1000)
     private String comment;
 
-    @Column(nullable = false)
     private LocalDate reviewDate;
 
-    public Review(Long id, Long userId, int rating, String comment, LocalDate reviewDate) {
+    private Review(Long id, String username, int rating, String comment, LocalDate reviewDate, Long mediaId, boolean isFilm) {
         this.id = id;
-        this.userId = userId;
+        this.username = username;
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
+        if (isFilm) {
+            this.filmId = mediaId;
+        } else {
+            this.tvSeriesId = mediaId;
+        }
     }
+
+    public static Review createFilmReview(Long id, String username, int rating, String comment, LocalDate reviewDate, Long filmId) {
+        return new Review(id, username, rating, comment, reviewDate, filmId, true);
+    }
+
+    public static Review createTvSeriesReview(Long id, String username, int rating, String comment, LocalDate reviewDate, Long tvSeriesId) {
+        return new Review(id, username, rating, comment, reviewDate, tvSeriesId, false);
+    }
+
 }

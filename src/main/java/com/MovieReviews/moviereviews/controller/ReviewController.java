@@ -1,11 +1,14 @@
 package com.MovieReviews.moviereviews.controller;
 
+import java.time.LocalDate;
 import com.MovieReviews.moviereviews.model.Review;
 import com.MovieReviews.moviereviews.service.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,15 +40,31 @@ public class ReviewController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<?> addReview(@Valid @RequestBody Review review) {
+    @PostMapping("/addReview")
+    public ResponseEntity<?> addReview(@RequestParam(required = false) Long filmId,
+                                       @RequestParam(required = false) Long tvSeriesId,
+                                       @Valid @RequestBody Review review) {
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+
+            if (filmId != null) {
+                review.setFilmId(filmId);
+            } else if (tvSeriesId != null) {
+                review.setTvSeriesId(tvSeriesId);
+            } else {
+                throw new IllegalArgumentException("Debe proporcionar filmId o tvSeriesId.");
+            }
+
+            review.setUsername(username);
             Review addedReview = reviewService.addReview(review);
+
             return new ResponseEntity<>(addedReview, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateReview(@PathVariable Long id, @Valid @RequestBody Review review) {

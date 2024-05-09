@@ -47,12 +47,6 @@ public class ReviewService {
     }
 
     private void validateReview(Review review) {
-        if (review.getRating() < 0 || review.getRating() > 10) {
-            throw new IllegalArgumentException("La puntuacion tiene que ser un numero entre 0 y 10.");
-        }
-        if (review.getComment().length() > 1000) {
-            throw new IllegalArgumentException("El comentario no puede tener mas de 1000 caractares.");
-        }
     }
 }
 
