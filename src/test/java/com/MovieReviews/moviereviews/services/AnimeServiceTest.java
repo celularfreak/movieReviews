@@ -1,14 +1,13 @@
 package com.MovieReviews.moviereviews.services;
 
-import com.MovieReviews.moviereviews.model.Series.Anime;
-import com.MovieReviews.moviereviews.repositories.AnimeRepository;
-import com.MovieReviews.moviereviews.service.AnimeService;
+import com.MovieReviews.moviereviews.model.series.Anime;
+import com.MovieReviews.moviereviews.repositories.series.AnimeRepository;
+import com.MovieReviews.moviereviews.service.series.AnimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;

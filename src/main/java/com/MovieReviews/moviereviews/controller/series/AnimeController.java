@@ -1,7 +1,7 @@
-package com.MovieReviews.moviereviews.controller;
+package com.MovieReviews.moviereviews.controller.series;
 
-import com.MovieReviews.moviereviews.model.Series.Anime;
-import com.MovieReviews.moviereviews.service.AnimeService;
+import com.MovieReviews.moviereviews.model.series.Anime;
+import com.MovieReviews.moviereviews.service.series.AnimeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class AnimeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Anime> getAnimeById(@PathVariable Long id) {
+    public ResponseEntity<Anime> getAnimeById(@PathVariable int id) {
         Anime anime = animeService.getAnimeById(id);
         if (anime != null) {
             return new ResponseEntity<>(anime, HttpStatus.OK);
@@ -48,7 +48,7 @@ public class AnimeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAnime(@PathVariable Long id, @Valid @RequestBody Anime anime) {
+    public ResponseEntity<?> updateAnime(@PathVariable int id, @Valid @RequestBody Anime anime) {
         try {
             Anime updatedAnime = animeService.updateAnime(id, anime);
             if (updatedAnime != null) {
@@ -62,7 +62,7 @@ public class AnimeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAnime(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAnime(@PathVariable int id) {
         animeService.deleteAnime(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

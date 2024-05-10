@@ -1,6 +1,7 @@
 package com.MovieReviews.moviereviews.service;
 
 import com.MovieReviews.moviereviews.model.Review;
+import com.MovieReviews.moviereviews.model.reviews.FilmReview;
 import com.MovieReviews.moviereviews.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +22,11 @@ public class ReviewService {
         return reviewRepository.findAll();
     }
 
-    public Review getReviewById(Long id) {
+    public Review getReviewById(int id) {
         return reviewRepository.findById(id).orElse(null);
     }
 
-    public Review addReview(Review review) {
-        validateReview(review);
-        return reviewRepository.save(review);
-    }
-
-    public Review updateReview(Long id, Review review) {
+    public Review updateReview(int id, Review review) {
         validateReview(review);
         Review existingReview = reviewRepository.findById(id).orElse(null);
         if (existingReview != null) {
@@ -42,7 +38,7 @@ public class ReviewService {
         return null;
     }
 
-    public void deleteReview(Long id) {
+    public void deleteReview(int id) {
         reviewRepository.deleteById(id);
     }
 

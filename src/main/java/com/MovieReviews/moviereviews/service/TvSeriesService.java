@@ -21,7 +21,7 @@ public class TvSeriesService {
         return tvSeriesRepository.findAll();
     }
 
-    public TvSeries getTvSeriesById(Long id) {
+    public TvSeries getTvSeriesById(int id) {
         return tvSeriesRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class TvSeriesService {
         return tvSeriesRepository.save(tvSeries);
     }
 
-    public TvSeries updateTvSeries(Long id, TvSeries tvSeries) {
+    public TvSeries updateTvSeries(int id, TvSeries tvSeries) {
         validateTvSeries(tvSeries);
         TvSeries existingTvSeries = tvSeriesRepository.findById(id).orElse(null);
         if (existingTvSeries != null) {
@@ -45,7 +45,7 @@ public class TvSeriesService {
         return null;
     }
 
-    public void deleteTvSeries(Long id) {
+    public void deleteTvSeries(int id) {
         tvSeriesRepository.deleteById(id);
     }
 

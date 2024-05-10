@@ -1,8 +1,8 @@
 package com.MovieReviews.moviereviews.controllers;
 
-import com.MovieReviews.moviereviews.controller.MiniSerieController;
-import com.MovieReviews.moviereviews.model.Series.MiniSerie;
-import com.MovieReviews.moviereviews.service.MiniSerieService;
+import com.MovieReviews.moviereviews.controller.series.MiniSerieController;
+import com.MovieReviews.moviereviews.model.series.MiniSerie;
+import com.MovieReviews.moviereviews.service.series.MiniSerieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

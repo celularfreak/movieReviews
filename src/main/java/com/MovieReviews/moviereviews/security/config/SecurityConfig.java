@@ -52,6 +52,7 @@ public class SecurityConfig {
 
                 .requestMatchers(GET, "/films").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers( "/films").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers( "/film-reviews/**").hasAnyAuthority("ROLE_ADMIN")
                 //.requestMatchers(GET, "/tv-series").hasAnyAuthority("ROLE_ADMIN")//
                 .requestMatchers("/error/**").permitAll()
                 .anyRequest().authenticated());

@@ -1,7 +1,7 @@
-package com.MovieReviews.moviereviews.service;
+package com.MovieReviews.moviereviews.service.series;
 
-import com.MovieReviews.moviereviews.model.Series.Anime;
-import com.MovieReviews.moviereviews.repositories.AnimeRepository;
+import com.MovieReviews.moviereviews.model.series.Anime;
+import com.MovieReviews.moviereviews.repositories.series.AnimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,7 +20,7 @@ public class AnimeService {
         return animeRepository.findAll();
     }
 
-    public Anime getAnimeById(Long id) {
+    public Anime getAnimeById(int id) {
         return animeRepository.findById(id).orElse(null);
     }
 
@@ -29,7 +29,7 @@ public class AnimeService {
         return animeRepository.save(anime);
     }
 
-    public Anime updateAnime(Long id, Anime anime) {
+    public Anime updateAnime(int id, Anime anime) {
         validateAnime(anime);
         Anime existingAnime = animeRepository.findById(id).orElse(null);
         if (existingAnime != null) {
@@ -45,7 +45,7 @@ public class AnimeService {
         return null;
     }
 
-    public void deleteAnime(Long id) {
+    public void deleteAnime(int id) {
         animeRepository.deleteById(id);
     }
 

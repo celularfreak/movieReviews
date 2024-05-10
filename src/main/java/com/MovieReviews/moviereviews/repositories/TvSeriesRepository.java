@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TvSeriesRepository extends JpaRepository<TvSeries, Long> {
+public interface TvSeriesRepository extends JpaRepository<TvSeries, Integer> {
 
     Optional<Object> findByTitle(String title);
 }

@@ -1,7 +1,7 @@
-package com.MovieReviews.moviereviews.service;
+package com.MovieReviews.moviereviews.service.series;
 
-import com.MovieReviews.moviereviews.model.Series.MiniSerie;
-import com.MovieReviews.moviereviews.repositories.MiniSerieRepository;
+import com.MovieReviews.moviereviews.model.series.MiniSerie;
+import com.MovieReviews.moviereviews.repositories.series.MiniSerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class MiniSerieService {
         return miniSerieRepository.findAll();
     }
 
-    public MiniSerie getMiniSerieById(Long id) {
+    public MiniSerie getMiniSerieById(int id) {
         return miniSerieRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class MiniSerieService {
         return miniSerieRepository.save(miniSerie);
     }
 
-    public MiniSerie updateMiniSerie(Long id, MiniSerie miniSerie) {
+    public MiniSerie updateMiniSerie(int id, MiniSerie miniSerie) {
         validateMiniSerie(miniSerie);
         MiniSerie existingMiniSerie = miniSerieRepository.findById(id).orElse(null);
         if (existingMiniSerie != null) {
@@ -44,7 +44,7 @@ public class MiniSerieService {
         return null;
     }
 
-    public void deleteMiniSerie(Long id) {
+    public void deleteMiniSerie(int id) {
         miniSerieRepository.deleteById(id);
     }
 

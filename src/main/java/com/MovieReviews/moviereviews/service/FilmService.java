@@ -21,7 +21,7 @@ public class FilmService {
         return filmRepository.findAll();
     }
 
-    public Film getFilmById(Long id) {
+    public Film getFilmById(int id) {
         return filmRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class FilmService {
         return filmRepository.save(film);
     }
 
-    public Film updateFilm(Long id, Film film) {
+    public Film updateFilm(int id, Film film) {
         validateFilm(film);
         Film existingFilm = filmRepository.findById(id).orElse(null);
         if (existingFilm != null) {
@@ -43,7 +43,7 @@ public class FilmService {
         return null;
     }
 
-    public void deleteFilm(Long id) {
+    public void deleteFilm(int id) {
         filmRepository.deleteById(id);
     }
 

@@ -1,13 +1,13 @@
-package com.MovieReviews.moviereviews.repositories;
+package com.MovieReviews.moviereviews.repositories.series;
 
-import com.MovieReviews.moviereviews.model.Series.MiniSerie;
+import com.MovieReviews.moviereviews.model.series.Anime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface MiniSerieRepository extends JpaRepository<MiniSerie, Long> {
+public interface AnimeRepository extends JpaRepository<Anime, Integer> {
 
     Optional<Object> findByTitle(String title);
 }

@@ -17,7 +17,7 @@ public class TvSeries {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long id;
+    private int id;
 
     @NotNull(message = "El título no puede ser nulo")
     @Pattern(regexp = "^[a-zA-Z0-9\\s.,]{1,100}$", message = "El título debe tener entre 1 y 100 letras y admitir, espacios, puntos y comas")

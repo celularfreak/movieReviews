@@ -31,7 +31,7 @@ public class ReviewController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Review> getReviewById(@PathVariable Long id) {
+    public ResponseEntity<Review> getReviewById(@PathVariable int id) {
         Review review = reviewService.getReviewById(id);
         if (review != null) {
             return new ResponseEntity<>(review, HttpStatus.OK);
@@ -40,34 +40,8 @@ public class ReviewController {
         }
     }
 
-    @PostMapping("/addReview")
-    public ResponseEntity<?> addReview(@RequestParam(required = false) Long filmId,
-                                       @RequestParam(required = false) Long tvSeriesId,
-                                       @Valid @RequestBody Review review) {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-
-            if (filmId != null) {
-                review.setFilmId(filmId);
-            } else if (tvSeriesId != null) {
-                review.setTvSeriesId(tvSeriesId);
-            } else {
-                throw new IllegalArgumentException("Debe proporcionar filmId o tvSeriesId.");
-            }
-
-            review.setUsername(username);
-            Review addedReview = reviewService.addReview(review);
-
-            return new ResponseEntity<>(addedReview, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateReview(@PathVariable Long id, @Valid @RequestBody Review review) {
+    public ResponseEntity<?> updateReview(@PathVariable int id, @Valid @RequestBody Review review) {
         try {
             Review updatedReview = reviewService.updateReview(id, review);
             if (updatedReview != null) {
@@ -81,7 +55,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteReview(@PathVariable int id) {
         reviewService.deleteReview(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

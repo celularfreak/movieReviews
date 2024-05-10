@@ -3,6 +3,7 @@ package com.MovieReviews.moviereviews.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 import java.time.LocalDate;
@@ -16,15 +17,9 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long id;
+    private int id;
 
     private String username;
-
-    private Long filmId;
-
-    private Long tvSeriesId;
-
-    private Long mediaId;
 
     @Min(value = 0)
     @Max(value = 10)
@@ -35,27 +30,15 @@ public class Review {
     @Size(min = 4, max = 1000)
     private String comment;
 
+    @NotNull(message = "La fecha de la review no puede ser nula")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate launchDate;
     private LocalDate reviewDate;
 
-    private Review(Long id, String username, int rating, String comment, LocalDate reviewDate, Long mediaId, boolean isFilm) {
-        this.id = id;
+    public Review(String username, int rating, String comment, LocalDate reviewDate) {
         this.username = username;
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
-        if (isFilm) {
-            this.filmId = mediaId;
-        } else {
-            this.tvSeriesId = mediaId;
-        }
     }
-
-    public static Review createFilmReview(Long id, String username, int rating, String comment, LocalDate reviewDate, Long filmId) {
-        return new Review(id, username, rating, comment, reviewDate, filmId, true);
-    }
-
-    public static Review createTvSeriesReview(Long id, String username, int rating, String comment, LocalDate reviewDate, Long tvSeriesId) {
-        return new Review(id, username, rating, comment, reviewDate, tvSeriesId, false);
-    }
-
 }
