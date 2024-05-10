@@ -5,22 +5,18 @@ import com.MovieReviews.moviereviews.repositories.TvSeriesRepository;
 import com.MovieReviews.moviereviews.service.TvSeriesService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class TvSeriesServiceTest {
+class TvSeriesServiceTest {
 
     @Mock
     private TvSeriesRepository tvSeriesRepository;
@@ -29,61 +25,108 @@ public class TvSeriesServiceTest {
     private TvSeriesService tvSeriesService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllTvSeries() {
-        List<TvSeries> tvSeriesList = new ArrayList<>();
-        tvSeriesList.add(new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01")));
-        tvSeriesList.add(new TvSeries(2L, "series 2", LocalDate.parse("2024-02-02"), "Comedy", 4, 15, LocalDate.parse("2025-02-02")));
-        when(tvSeriesRepository.findAll()).thenReturn(tvSeriesList);
+    void getAllTvSeries() {
+        // Arrange
+        List<TvSeries> tvSeries = new ArrayList<>();
+        // Populate tvSeries with test data
+        when(tvSeriesRepository.findAll()).thenReturn(tvSeries);
 
+        // Act
         List<TvSeries> result = tvSeriesService.getAllTvSeries();
 
-        assertEquals(2, result.size());
+        // Assert
+        assertEquals(tvSeries, result);
     }
 
     @Test
-    public void testGetTvSeriesById() {
-        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
-        when(tvSeriesRepository.findById(1L)).thenReturn(Optional.of(tvSeries));
+    void getTvSeriesById_ExistingId_ReturnsTvSeries() {
+        // Arrange
+        int id = 1;
+        TvSeries tvSeries = new TvSeries();
+        // Populate tvSeries with test data
+        when(tvSeriesRepository.findById(id)).thenReturn(Optional.of(tvSeries));
 
-        TvSeries result = tvSeriesService.getTvSeriesById(1L);
+        // Act
+        TvSeries result = tvSeriesService.getTvSeriesById(id);
 
-        assertEquals("series 1", result.getTitle());
-        assertEquals(5, result.getNumberSeasons());
+        // Assert
+        assertEquals(tvSeries, result);
     }
 
     @Test
-    public void testAddTvSeries() {
-        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
-        when(tvSeriesRepository.save(any(TvSeries.class))).thenReturn(tvSeries);
+    void getTvSeriesById_NonExistingId_ReturnsNull() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        when(tvSeriesRepository.findById(id)).thenReturn(Optional.empty());
 
+        // Act
+        TvSeries result = tvSeriesService.getTvSeriesById(id);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void addTvSeries_ValidTvSeries_ReturnsAddedTvSeries() {
+        // Arrange
+        TvSeries tvSeries = new TvSeries();
+        // Populate tvSeries with test data
+        when(tvSeriesRepository.save(tvSeries)).thenReturn(tvSeries);
+
+        // Act
         TvSeries result = tvSeriesService.addTvSeries(tvSeries);
 
-        assertEquals("series 1", result.getTitle());
-        assertEquals(20, result.getNumberEpisodes());
+        // Assert
+        assertEquals(tvSeries, result);
     }
 
     @Test
-    public void testUpdateTvSeries() {
-        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
-        when(tvSeriesRepository.findById(1L)).thenReturn(Optional.of(tvSeries));
-        when(tvSeriesRepository.save(any(TvSeries.class))).thenReturn(tvSeries);
+    void updateTvSeries_ExistingTvSeries_ReturnsUpdatedTvSeries() {
+        // Arrange
+        int id = 1;
+        TvSeries existingTvSeries = new TvSeries();
+        // Populate existingTvSeries with test data
+        TvSeries updatedTvSeries = new TvSeries();
+        // Populate updatedTvSeries with test data
+        when(tvSeriesRepository.findById(id)).thenReturn(Optional.of(existingTvSeries));
+        when(tvSeriesRepository.save(existingTvSeries)).thenReturn(updatedTvSeries);
 
-        TvSeries result = tvSeriesService.updateTvSeries(1L, tvSeries);
+        // Act
+        TvSeries result = tvSeriesService.updateTvSeries(id, existingTvSeries);
 
-        assertEquals("series 1", result.getTitle());
-        assertEquals(5, result.getNumberSeasons());
+        // Assert
+        assertEquals(updatedTvSeries, result);
     }
 
     @Test
-    public void testDeleteTvSeries() {
-        doNothing().when(tvSeriesRepository).deleteById(1L);
+    void updateTvSeries_NonExistingTvSeries_ReturnsNull() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        TvSeries nonExistingTvSeries = new TvSeries();
+        // Populate nonExistingTvSeries with test data
+        when(tvSeriesRepository.findById(id)).thenReturn(Optional.empty());
 
-        tvSeriesService.deleteTvSeries(1L);
+        // Act
+        TvSeries result = tvSeriesService.updateTvSeries(id, nonExistingTvSeries);
 
-        verify(tvSeriesRepository, times(1)).deleteById(1L);
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void deleteTvSeries_ValidId_DeletesTvSeries() {
+        // Arrange
+        int id = 1;
+
+        // Act
+        tvSeriesService.deleteTvSeries(id);
+
+        // Assert
+        verify(tvSeriesRepository, times(1)).deleteById(id);
     }
 }

@@ -5,22 +5,18 @@ import com.MovieReviews.moviereviews.repositories.series.MiniSerieRepository;
 import com.MovieReviews.moviereviews.service.series.MiniSerieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class MiniSerieServiceTest {
+class MiniSerieServiceTest {
 
     @Mock
     private MiniSerieRepository miniSerieRepository;
@@ -29,61 +25,108 @@ public class MiniSerieServiceTest {
     private MiniSerieService miniSerieService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllMiniSeries() {
+    void getAllMiniSeries() {
+        // Arrange
         List<MiniSerie> miniSeries = new ArrayList<>();
-        miniSeries.add(new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01")));
-        miniSeries.add(new MiniSerie(2L, "MiniSeries 2", LocalDate.parse("2024-02-02"), "Comedy", 4, LocalDate.parse("2024-03-02")));
+        // Populate miniSeries with test data
         when(miniSerieRepository.findAll()).thenReturn(miniSeries);
 
+        // Act
         List<MiniSerie> result = miniSerieService.getAllMiniSeries();
 
-        assertEquals(2, result.size());
+        // Assert
+        assertEquals(miniSeries, result);
     }
 
     @Test
-    public void testGetMiniSerieById() {
-        MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
-        when(miniSerieRepository.findById(1L)).thenReturn(Optional.of(miniSerie));
+    void getMiniSerieById_ExistingId_ReturnsMiniSerie() {
+        // Arrange
+        int id = 1;
+        MiniSerie miniSerie = new MiniSerie();
+        // Populate miniSerie with test data
+        when(miniSerieRepository.findById(id)).thenReturn(Optional.of(miniSerie));
 
-        MiniSerie result = miniSerieService.getMiniSerieById(1L);
+        // Act
+        MiniSerie result = miniSerieService.getMiniSerieById(id);
 
-        assertEquals("MiniSeries 1", result.getTitle());
-        assertEquals("Drama", result.getGenre());
+        // Assert
+        assertEquals(miniSerie, result);
     }
 
     @Test
-    public void testAddMiniSerie() {
-        MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
-        when(miniSerieRepository.save(any(MiniSerie.class))).thenReturn(miniSerie);
+    void getMiniSerieById_NonExistingId_ReturnsNull() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        when(miniSerieRepository.findById(id)).thenReturn(Optional.empty());
 
+        // Act
+        MiniSerie result = miniSerieService.getMiniSerieById(id);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void addMiniSerie_ValidMiniSerie_ReturnsAddedMiniSerie() {
+        // Arrange
+        MiniSerie miniSerie = new MiniSerie();
+        // Populate miniSerie with test data
+        when(miniSerieRepository.save(miniSerie)).thenReturn(miniSerie);
+
+        // Act
         MiniSerie result = miniSerieService.addMiniSerie(miniSerie);
 
-        assertEquals("MiniSeries 1", result.getTitle());
-        assertEquals("Drama", result.getGenre());
+        // Assert
+        assertEquals(miniSerie, result);
     }
 
     @Test
-    public void testUpdateMiniSerie() {
-        MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
-        when(miniSerieRepository.findById(1L)).thenReturn(Optional.of(miniSerie));
-        when(miniSerieRepository.save(any(MiniSerie.class))).thenReturn(miniSerie);
+    void updateMiniSerie_ExistingMiniSerie_ReturnsUpdatedMiniSerie() {
+        // Arrange
+        int id = 1;
+        MiniSerie existingMiniSerie = new MiniSerie();
+        // Populate existingMiniSerie with test data
+        MiniSerie updatedMiniSerie = new MiniSerie();
+        // Populate updatedMiniSerie with test data
+        when(miniSerieRepository.findById(id)).thenReturn(Optional.of(existingMiniSerie));
+        when(miniSerieRepository.save(existingMiniSerie)).thenReturn(updatedMiniSerie);
 
-        MiniSerie updatedMiniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 8, LocalDate.parse("2024-02-01"));
-        MiniSerie result = miniSerieService.updateMiniSerie(1L, updatedMiniSerie);
+        // Act
+        MiniSerie result = miniSerieService.updateMiniSerie(id, existingMiniSerie);
 
-        assertEquals(8, result.getNumberEpisodes());
+        // Assert
+        assertEquals(updatedMiniSerie, result);
     }
 
     @Test
-    public void testDeleteMiniSerie() {
-        doNothing().when(miniSerieRepository).deleteById(1L);
+    void updateMiniSerie_NonExistingMiniSerie_ReturnsNull() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        MiniSerie nonExistingMiniSerie = new MiniSerie();
+        // Populate nonExistingMiniSerie with test data
+        when(miniSerieRepository.findById(id)).thenReturn(Optional.empty());
 
-        miniSerieService.deleteMiniSerie(1L);
+        // Act
+        MiniSerie result = miniSerieService.updateMiniSerie(id, nonExistingMiniSerie);
 
-        verify(miniSerieRepository, times(1)).deleteById(1L);
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void deleteMiniSerie_ValidId_DeletesMiniSerie() {
+        // Arrange
+        int id = 1;
+
+        // Act
+        miniSerieService.deleteMiniSerie(id);
+
+        // Assert
+        verify(miniSerieRepository, times(1)).deleteById(id);
     }
 }

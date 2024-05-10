@@ -47,7 +47,9 @@ public class FilmReviewService {
     }
 
     private void validateFilmReview(FilmReview filmReview) {
-
+        if (filmReviewRepository.findByFilmId(filmReview.getFilmId()).isEmpty()) {
+            throw new IllegalArgumentException("La película no existe.");
+        }
         if (filmReviewRepository.findByUsernameAndFilmId(filmReview.getUsername(), filmReview.getFilmId()).isPresent()) {
             throw new IllegalArgumentException("Ya has añadido una reseña para esta película.");
         }

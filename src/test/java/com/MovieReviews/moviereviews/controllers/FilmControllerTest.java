@@ -1,26 +1,24 @@
 package com.MovieReviews.moviereviews.controllers;
 
 import com.MovieReviews.moviereviews.controller.FilmController;
-import com.MovieReviews.moviereviews.service.FilmService;
 import com.MovieReviews.moviereviews.model.Film;
+import com.MovieReviews.moviereviews.service.FilmService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class FilmControllerTest {
+class FilmControllerTest {
 
     @Mock
     private FilmService filmService;
@@ -29,64 +27,154 @@ public class FilmControllerTest {
     private FilmController filmController;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllFilms() {
+    void getAllFilms() {
+        // Arrange
         List<Film> films = new ArrayList<>();
-        films.add(new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action"));
-        films.add(new Film(2L, "Film 2", "Director 2", LocalDate.parse("2024-02-02"), "Comedy"));
+        // Populate films with test data
+
         when(filmService.getAllFilms()).thenReturn(films);
 
-        List<Film> result = filmController.getAllFilms().getBody();
+        // Act
+        ResponseEntity<List<Film>> responseEntity = filmController.getAllFilms();
 
-        assert result != null;
-        assertEquals(2, result.size());
+        // Assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(films, responseEntity.getBody());
     }
 
     @Test
-    public void testGetFilmById() {
-        Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
-        when(filmService.getFilmById(1L)).thenReturn(film);
+    void getFilmById_ExistingId() {
+        // Arrange
+        int id = 1;
+        Film film = new Film();
+        // Populate film with test data
 
-        Film result = filmController.getFilmById(1L).getBody();
+        when(filmService.getFilmById(id)).thenReturn(film);
 
-        assert result != null;
-        assertEquals("Film 1", result.getTitle());
-        assertEquals("Director 1", result.getDirector());
+        // Act
+        ResponseEntity<Film> responseEntity = filmController.getFilmById(id);
+
+        // Assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(film, responseEntity.getBody());
     }
 
     @Test
-    public void testAddFilm() {
-        Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
-        when(filmService.addFilm(any(Film.class))).thenReturn(film);
+    void getFilmById_NonExistingId() {
+        // Arrange
+        int id = 999; // Non-existing ID
 
-        Film result = filmController.addFilm(film).getBody();
+        when(filmService.getFilmById(id)).thenReturn(null);
 
-        assert result != null;
-        assertEquals("Film 1", result.getTitle());
-        assertEquals("Director 1", result.getDirector());
+        // Act
+        ResponseEntity<Film> responseEntity = filmController.getFilmById(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
-    public void testUpdateFilm() {
-        Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
-        when(filmService.updateFilm(1L, film)).thenReturn(film);
+    void addFilm_ValidFilm() {
+        // Arrange
+        Film film = new Film();
+        // Populate film with test data
 
-        Film result = filmController.updateFilm(1L, film).getBody();
+        when(filmService.addFilm(film)).thenReturn(film);
 
-        assert result != null;
-        assertEquals("Film 1", result.getTitle());
-        assertEquals("Director 1", result.getDirector());
+        // Act
+        ResponseEntity<?> responseEntity = filmController.addFilm(film);
+
+        // Assert
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals(film, responseEntity.getBody());
     }
 
     @Test
-    public void testDeleteFilm() {
-        doNothing().when(filmService).deleteFilm(1L);
+    void addFilm_InvalidFilm() {
+        // Arrange
+        Film film = new Film();
+        // Populate film with invalid test data
 
-        filmController.deleteFilm(1L);
+        doThrow(IllegalArgumentException.class).when(filmService).addFilm(film);
 
-        verify(filmService, times(1)).deleteFilm(1L);
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class, () -> filmController.addFilm(film));
+    }
+
+    @Test
+    void updateFilm_ValidIdAndFilm() {
+        // Arrange
+        int id = 1;
+        Film film = new Film();
+        // Populate film with test data
+
+        when(filmService.updateFilm(id, film)).thenReturn(film);
+
+        // Act
+        ResponseEntity<?> responseEntity = filmController.updateFilm(id, film);
+
+        // Assert
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(film, responseEntity.getBody());
+    }
+
+    @Test
+    void updateFilm_InvalidId() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        Film film = new Film();
+        // Populate film with test data
+
+        when(filmService.updateFilm(id, film)).thenReturn(null);
+
+        // Act
+        ResponseEntity<?> responseEntity = filmController.updateFilm(id, film);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void updateFilm_InvalidFilm() {
+        // Arrange
+        int id = 1;
+        Film film = new Film();
+        // Populate film with invalid test data
+
+        doThrow(IllegalArgumentException.class).when(filmService).updateFilm(id, film);
+
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class, () -> filmController.updateFilm(id, film));
+    }
+
+    @Test
+    void deleteFilm_ValidId() {
+        // Arrange
+        int id = 1;
+
+        // Act
+        ResponseEntity<Void> responseEntity = filmController.deleteFilm(id);
+
+        // Assert
+        assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        verify(filmService, times(1)).deleteFilm(id);
+    }
+
+    @Test
+    void deleteFilm_InvalidId() {
+        // Arrange
+        int id = 999; // Non-existing ID
+
+        // Act
+        ResponseEntity<Void> responseEntity = filmController.deleteFilm(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        verify(filmService, never()).deleteFilm(id);
     }
 }

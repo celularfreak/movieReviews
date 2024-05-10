@@ -47,7 +47,9 @@ public class TvSeriesReviewService {
     }
 
     private void validateTvSeriesReview(TvSeriesReview tvSeriesReview) {
-
+        if (tvSeriesReviewRepository.findByTvSeriesId(tvSeriesReview.getTvSeriesId()).isEmpty()) {
+            throw new IllegalArgumentException("The tv series does not exist.");
+        }
         if (tvSeriesReviewRepository.findByUsernameAndTvSeriesId(tvSeriesReview.getUsername(), tvSeriesReview.getTvSeriesId()).isPresent()) {
             throw new IllegalArgumentException("You have already added a review for this tv series.");
         }
