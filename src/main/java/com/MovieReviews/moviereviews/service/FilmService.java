@@ -21,7 +21,7 @@ public class FilmService {
         return filmRepository.findAll();
     }
 
-    public Film getFilmById(Long id) {
+    public Film getFilmById(int id) {
         return filmRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class FilmService {
         return filmRepository.save(film);
     }
 
-    public Film updateFilm(Long id, Film film) {
+    public Film updateFilm(int id, Film film) {
         validateFilm(film);
         Film existingFilm = filmRepository.findById(id).orElse(null);
         if (existingFilm != null) {
@@ -43,23 +43,13 @@ public class FilmService {
         return null;
     }
 
-    public void deleteFilm(Long id) {
+    public void deleteFilm(int id) {
         filmRepository.deleteById(id);
     }
 
     private void validateFilm(Film film) {
-        if (film.getTitle().length() > 100) {
-            throw new IllegalArgumentException("El título no puede tener más de 100 caracteres.");
-        }
-        if (film.getDirector().length() > 50) {
-            throw new IllegalArgumentException("El director no puede tener más de 50 caracteres.");
-        }
-        if (!film.getGenre().matches("^[a-zA-Z]+(,[a-zA-Z]+)*$")) {
-            throw new IllegalArgumentException("El género debe ser una palabra o varias separadas por comas.");
-        }
-        // Validación de la fecha en formato dd-mm-yyyy
-        if (!film.getLaunchDate().toString().matches("\\d{4}-\\d{2}-\\d{2}")) {
-            throw new IllegalArgumentException("La fecha de lanzamiento debe estar en formato yyyy-mm-dd.");
+        if (filmRepository.findByTitle(film.getTitle()).isPresent()) {
+            throw new IllegalArgumentException("Ya existe una película con ese título.");
         }
     }
 }

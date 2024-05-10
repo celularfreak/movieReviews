@@ -1,7 +1,7 @@
-package com.MovieReviews.moviereviews.controller;
+package com.MovieReviews.moviereviews.controller.series;
 
-import com.MovieReviews.moviereviews.model.Series.MiniSerie;
-import com.MovieReviews.moviereviews.service.MiniSerieService;
+import com.MovieReviews.moviereviews.model.series.MiniSerie;
+import com.MovieReviews.moviereviews.service.series.MiniSerieService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class MiniSerieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MiniSerie> getMiniSerieById(@PathVariable Long id) {
+    public ResponseEntity<MiniSerie> getMiniSerieById(@PathVariable int id) {
         MiniSerie miniSerie = miniSerieService.getMiniSerieById(id);
         if (miniSerie != null) {
             return new ResponseEntity<>(miniSerie, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class MiniSerieController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateMiniSerie(@PathVariable Long id, @Valid @RequestBody MiniSerie miniSerie) {
+    public ResponseEntity<?> updateMiniSerie(@PathVariable int id, @Valid @RequestBody MiniSerie miniSerie) {
         try {
             MiniSerie updatedMiniSerie = miniSerieService.updateMiniSerie(id, miniSerie);
             if (updatedMiniSerie != null) {
@@ -63,7 +63,7 @@ public class MiniSerieController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMiniSerie(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteMiniSerie(@PathVariable int id) {
         miniSerieService.deleteMiniSerie(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

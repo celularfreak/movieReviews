@@ -1,8 +1,11 @@
 package com.MovieReviews.moviereviews.model;
 
-import lombok.*;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+
 import java.time.LocalDate;
 
 @Entity
@@ -14,27 +17,27 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
-    private Long id;
+    private int id;
 
-    @Column(nullable = false)
-    private Long userId;
+    private String username;
 
-    @Column(nullable = false)
+    @Min(value = 0)
+    @Max(value = 10)
     private int rating;
 
-    @Column(length = 1000)
+    @NotNull
+    @NotBlank
+    @Size(min = 4, max = 1000)
     private String comment;
 
-    @Column(nullable = false)
+    @NotNull(message = "La fecha de la review no puede ser nula")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate reviewDate;
 
-    // Constructor
-    public Review(Long id, Long userId, int rating, String comment, LocalDate reviewDate) {
-        this.id = id;
-        this.userId = userId;
+    public Review(String username, int rating, String comment, LocalDate reviewDate) {
+        this.username = username;
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
     }
 }
-

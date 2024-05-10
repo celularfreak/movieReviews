@@ -29,7 +29,7 @@ public class FilmController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Film> getFilmById(@PathVariable Long id) {
+    public ResponseEntity<Film> getFilmById(@PathVariable int id) {
         Film film = filmService.getFilmById(id);
         if (film != null) {
             return new ResponseEntity<>(film, HttpStatus.OK);
@@ -49,7 +49,7 @@ public class FilmController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateFilm(@PathVariable Long id, @Valid @RequestBody Film film) {
+    public ResponseEntity<?> updateFilm(@PathVariable int id, @Valid @RequestBody Film film) {
         try {
             Film updatedFilm = filmService.updateFilm(id, film);
             if (updatedFilm != null) {
@@ -63,7 +63,7 @@ public class FilmController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFilm(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFilm(@PathVariable int id) {
         filmService.deleteFilm(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

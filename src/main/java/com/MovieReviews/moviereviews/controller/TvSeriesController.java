@@ -28,7 +28,7 @@ public class TvSeriesController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TvSeries> getTvSeriesById(@PathVariable Long id) {
+    public ResponseEntity<TvSeries> getTvSeriesById(@PathVariable int id) {
         TvSeries tvSeries = tvSeriesService.getTvSeriesById(id);
         if (tvSeries != null) {
             return new ResponseEntity<>(tvSeries, HttpStatus.OK);
@@ -48,7 +48,7 @@ public class TvSeriesController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTvSeries(@PathVariable Long id, @Valid @RequestBody TvSeries tvSeries) {
+    public ResponseEntity<?> updateTvSeries(@PathVariable int id, @Valid @RequestBody TvSeries tvSeries) {
         try {
             TvSeries updatedTvSeries = tvSeriesService.updateTvSeries(id, tvSeries);
             if (updatedTvSeries != null) {
@@ -62,7 +62,7 @@ public class TvSeriesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTvSeries(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTvSeries(@PathVariable int id) {
         tvSeriesService.deleteTvSeries(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

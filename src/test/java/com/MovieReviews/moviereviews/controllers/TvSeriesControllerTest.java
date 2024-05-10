@@ -36,8 +36,8 @@ public class TvSeriesControllerTest {
     @Test
     public void testGetAllTvSeries() {
         List<TvSeries> tvSeriesList = new ArrayList<>();
-        tvSeriesList.add(new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01")));
-        tvSeriesList.add(new TvSeries(2L, "Series 2", LocalDate.parse("2024-02-02"), "Comedy", 4, 15, LocalDate.parse("2025-02-02")));
+        tvSeriesList.add(new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01")));
+        tvSeriesList.add(new TvSeries(2L, "series 2", LocalDate.parse("2024-02-02"), "Comedy", 4, 15, LocalDate.parse("2025-02-02")));
         when(tvSeriesService.getAllTvSeries()).thenReturn(tvSeriesList);
 
         ResponseEntity<List<TvSeries>> responseEntity = tvSeriesController.getAllTvSeries();
@@ -48,37 +48,37 @@ public class TvSeriesControllerTest {
 
     @Test
     public void testGetTvSeriesById() {
-        TvSeries tvSeries = new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
+        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         when(tvSeriesService.getTvSeriesById(1L)).thenReturn(tvSeries);
 
         ResponseEntity<TvSeries> responseEntity = tvSeriesController.getTvSeriesById(1L);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Series 1", responseEntity.getBody().getTitle());
+        assertEquals("series 1", responseEntity.getBody().getTitle());
         assertEquals(5, responseEntity.getBody().getNumberSeasons());
     }
 
     @Test
     public void testAddTvSeries() {
-        TvSeries tvSeries = new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
+        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         when(tvSeriesService.addTvSeries(any(TvSeries.class))).thenReturn(tvSeries);
 
         ResponseEntity<TvSeries> responseEntity = tvSeriesController.addTvSeries(tvSeries);
 
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals("Series 1", responseEntity.getBody().getTitle());
+        assertEquals("series 1", responseEntity.getBody().getTitle());
         assertEquals(20, responseEntity.getBody().getNumberEpisodes());
     }
 
     @Test
     public void testUpdateTvSeries() {
-        TvSeries tvSeries = new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
+        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         when(tvSeriesService.updateTvSeries(anyLong(), any(TvSeries.class))).thenReturn(tvSeries);
 
         ResponseEntity<TvSeries> responseEntity = tvSeriesController.updateTvSeries(1L, tvSeries);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Series 1", responseEntity.getBody().getTitle());
+        assertEquals("series 1", responseEntity.getBody().getTitle());
         assertEquals(5, responseEntity.getBody().getNumberSeasons());
     }
 

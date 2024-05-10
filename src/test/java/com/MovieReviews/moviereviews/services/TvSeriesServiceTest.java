@@ -35,8 +35,8 @@ public class TvSeriesServiceTest {
     @Test
     public void testGetAllTvSeries() {
         List<TvSeries> tvSeriesList = new ArrayList<>();
-        tvSeriesList.add(new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01")));
-        tvSeriesList.add(new TvSeries(2L, "Series 2", LocalDate.parse("2024-02-02"), "Comedy", 4, 15, LocalDate.parse("2025-02-02")));
+        tvSeriesList.add(new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01")));
+        tvSeriesList.add(new TvSeries(2L, "series 2", LocalDate.parse("2024-02-02"), "Comedy", 4, 15, LocalDate.parse("2025-02-02")));
         when(tvSeriesRepository.findAll()).thenReturn(tvSeriesList);
 
         List<TvSeries> result = tvSeriesService.getAllTvSeries();
@@ -46,35 +46,35 @@ public class TvSeriesServiceTest {
 
     @Test
     public void testGetTvSeriesById() {
-        TvSeries tvSeries = new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
+        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         when(tvSeriesRepository.findById(1L)).thenReturn(Optional.of(tvSeries));
 
         TvSeries result = tvSeriesService.getTvSeriesById(1L);
 
-        assertEquals("Series 1", result.getTitle());
+        assertEquals("series 1", result.getTitle());
         assertEquals(5, result.getNumberSeasons());
     }
 
     @Test
     public void testAddTvSeries() {
-        TvSeries tvSeries = new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
+        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         when(tvSeriesRepository.save(any(TvSeries.class))).thenReturn(tvSeries);
 
         TvSeries result = tvSeriesService.addTvSeries(tvSeries);
 
-        assertEquals("Series 1", result.getTitle());
+        assertEquals("series 1", result.getTitle());
         assertEquals(20, result.getNumberEpisodes());
     }
 
     @Test
     public void testUpdateTvSeries() {
-        TvSeries tvSeries = new TvSeries(1L, "Series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
+        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
         when(tvSeriesRepository.findById(1L)).thenReturn(Optional.of(tvSeries));
         when(tvSeriesRepository.save(any(TvSeries.class))).thenReturn(tvSeries);
 
         TvSeries result = tvSeriesService.updateTvSeries(1L, tvSeries);
 
-        assertEquals("Series 1", result.getTitle());
+        assertEquals("series 1", result.getTitle());
         assertEquals(5, result.getNumberSeasons());
     }
 

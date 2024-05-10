@@ -1,7 +1,7 @@
-package com.MovieReviews.moviereviews.service;
+package com.MovieReviews.moviereviews.service.series;
 
-import com.MovieReviews.moviereviews.model.Series.MiniSerie;
-import com.MovieReviews.moviereviews.repositories.MiniSerieRepository;
+import com.MovieReviews.moviereviews.model.series.MiniSerie;
+import com.MovieReviews.moviereviews.repositories.series.MiniSerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ public class MiniSerieService {
         return miniSerieRepository.findAll();
     }
 
-    public MiniSerie getMiniSerieById(Long id) {
+    public MiniSerie getMiniSerieById(int id) {
         return miniSerieRepository.findById(id).orElse(null);
     }
 
@@ -30,7 +30,7 @@ public class MiniSerieService {
         return miniSerieRepository.save(miniSerie);
     }
 
-    public MiniSerie updateMiniSerie(Long id, MiniSerie miniSerie) {
+    public MiniSerie updateMiniSerie(int id, MiniSerie miniSerie) {
         validateMiniSerie(miniSerie);
         MiniSerie existingMiniSerie = miniSerieRepository.findById(id).orElse(null);
         if (existingMiniSerie != null) {
@@ -44,22 +44,13 @@ public class MiniSerieService {
         return null;
     }
 
-    public void deleteMiniSerie(Long id) {
+    public void deleteMiniSerie(int id) {
         miniSerieRepository.deleteById(id);
     }
 
     private void validateMiniSerie(MiniSerie miniSerie) {
-        if (miniSerie.getTitle().length() > 100) {
-            throw new IllegalArgumentException("El título no puede tener más de 100 caracteres.");
-        }
-        if (!miniSerie.getGenre().matches("^[a-zA-Z]+(,[a-zA-Z]+)*$")) {
-            throw new IllegalArgumentException("El género debe ser una palabra o varias separadas por comas.");
-        }
-        if (miniSerie.getNumberEpisodes() <= 1) {
-            throw new IllegalArgumentException("El número de episodios debe ser mayor a 1.");
-        }
-        if (miniSerie.getFinishDate() != null && miniSerie.getFinishDate().isBefore(miniSerie.getLaunchDate())) {
-            throw new IllegalArgumentException("La fecha de finalización debe ser posterior a la fecha de lanzamiento.");
+        if (miniSerieRepository.findByTitle(miniSerie.getTitle()).isPresent()) {
+            throw new IllegalArgumentException("Ya existe una miniserie con ese título.");
         }
     }
 }
