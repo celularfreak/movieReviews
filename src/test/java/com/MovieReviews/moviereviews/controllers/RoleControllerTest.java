@@ -1,7 +1,6 @@
 package com.MovieReviews.moviereviews.controllers;
 
 import com.MovieReviews.moviereviews.security.controllers.RoleController;
-import com.MovieReviews.moviereviews.security.dto.RoleToUserDto;
 import com.MovieReviews.moviereviews.security.models.Role;
 import com.MovieReviews.moviereviews.security.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;

@@ -1,5 +1,6 @@
-package com.MovieReviews.moviereviews.controller;
+package com.MovieReviews.moviereviews.controllers;
 
+import com.MovieReviews.moviereviews.controller.TvSeriesController;
 import com.MovieReviews.moviereviews.model.TvSeries;
 import com.MovieReviews.moviereviews.service.TvSeriesService;
 import org.junit.jupiter.api.BeforeEach;
