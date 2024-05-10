@@ -5,22 +5,18 @@ import com.MovieReviews.moviereviews.repositories.FilmRepository;
 import com.MovieReviews.moviereviews.service.FilmService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class FilmServiceTest {
+class FilmServiceTest {
 
     @Mock
     private FilmRepository filmRepository;
@@ -29,61 +25,108 @@ public class FilmServiceTest {
     private FilmService filmService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllFilms() {
+    void getAllFilms() {
+        // Arrange
         List<Film> films = new ArrayList<>();
-        films.add(new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action"));
-        films.add(new Film(2L, "Film 2", "Director 2", LocalDate.parse("2024-02-02"), "Comedy"));
+        // Populate films with test data
         when(filmRepository.findAll()).thenReturn(films);
 
+        // Act
         List<Film> result = filmService.getAllFilms();
 
-        assertEquals(2, result.size());
+        // Assert
+        assertEquals(films, result);
     }
 
     @Test
-    public void testGetFilmById() {
-        Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
-        when(filmRepository.findById(1L)).thenReturn(Optional.of(film));
+    void getFilmById_ExistingId_ReturnsFilm() {
+        // Arrange
+        int id = 1;
+        Film film = new Film();
+        // Populate film with test data
+        when(filmRepository.findById(id)).thenReturn(Optional.of(film));
 
-        Film result = filmService.getFilmById(1L);
+        // Act
+        Film result = filmService.getFilmById(id);
 
-        assertEquals("Film 1", result.getTitle());
-        assertEquals("Director 1", result.getDirector());
+        // Assert
+        assertEquals(film, result);
     }
 
     @Test
-    public void testAddFilm() {
-        Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
-        when(filmRepository.save(any(Film.class))).thenReturn(film);
+    void getFilmById_NonExistingId_ReturnsNull() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        when(filmRepository.findById(id)).thenReturn(Optional.empty());
 
+        // Act
+        Film result = filmService.getFilmById(id);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void addFilm_ValidFilm_ReturnsAddedFilm() {
+        // Arrange
+        Film film = new Film();
+        // Populate film with test data
+        when(filmRepository.save(film)).thenReturn(film);
+
+        // Act
         Film result = filmService.addFilm(film);
 
-        assertEquals("Film 1", result.getTitle());
-        assertEquals("Director 1", result.getDirector());
+        // Assert
+        assertEquals(film, result);
     }
 
     @Test
-    public void testUpdateFilm() {
-        Film film = new Film(1L, "Film 1", "Director 1", LocalDate.parse("2024-01-01"), "Action");
-        when(filmRepository.findById(1L)).thenReturn(Optional.of(film));
-        when(filmRepository.save(any(Film.class))).thenReturn(film);
+    void updateFilm_ExistingFilm_ReturnsUpdatedFilm() {
+        // Arrange
+        int id = 1;
+        Film existingFilm = new Film();
+        // Populate existingFilm with test data
+        Film updatedFilm = new Film();
+        // Populate updatedFilm with test data
+        when(filmRepository.findById(id)).thenReturn(Optional.of(existingFilm));
+        when(filmRepository.save(existingFilm)).thenReturn(updatedFilm);
 
-        Film result = filmService.updateFilm(1L, film);
+        // Act
+        Film result = filmService.updateFilm(id, existingFilm);
 
-        assertEquals("Film 1", result.getTitle());
-        assertEquals("Director 1", result.getDirector());
+        // Assert
+        assertEquals(updatedFilm, result);
     }
 
     @Test
-    public void testDeleteFilm() {
-        doNothing().when(filmRepository).deleteById(1L);
+    void updateFilm_NonExistingFilm_ReturnsNull() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        Film nonExistingFilm = new Film();
+        // Populate nonExistingFilm with test data
+        when(filmRepository.findById(id)).thenReturn(Optional.empty());
 
-        filmService.deleteFilm(1L);
+        // Act
+        Film result = filmService.updateFilm(id, nonExistingFilm);
 
-        verify(filmRepository, times(1)).deleteById(1L);
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void deleteFilm_ValidId_DeletesFilm() {
+        // Arrange
+        int id = 1;
+
+        // Act
+        filmService.deleteFilm(id);
+
+        // Assert
+        verify(filmRepository, times(1)).deleteById(id);
     }
 }

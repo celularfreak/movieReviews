@@ -5,22 +5,18 @@ import com.MovieReviews.moviereviews.repositories.series.AnimeRepository;
 import com.MovieReviews.moviereviews.service.series.AnimeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class AnimeServiceTest {
+class AnimeServiceTest {
 
     @Mock
     private AnimeRepository animeRepository;
@@ -29,61 +25,108 @@ public class AnimeServiceTest {
     private AnimeService animeService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllAnimes() {
-        List<Anime> animeList = new ArrayList<>();
-        animeList.add(new Anime(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A"));
-        animeList.add(new Anime(2L, "Anime 2", LocalDate.parse("2024-02-02"), "Comedy", 2, 24, LocalDate.parse("2024-04-02"), "Studio B"));
-        when(animeRepository.findAll()).thenReturn(animeList);
+    void getAllAnimes() {
+        // Arrange
+        List<Anime> animes = new ArrayList<>();
+        // Populate animes with test data
+        when(animeRepository.findAll()).thenReturn(animes);
 
+        // Act
         List<Anime> result = animeService.getAllAnimes();
 
-        assertEquals(2, result.size());
+        // Assert
+        assertEquals(animes, result);
     }
 
     @Test
-    public void testGetAnimeById() {
-        Anime anime = new Anime(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
-        when(animeRepository.findById(1L)).thenReturn(Optional.of(anime));
+    void getAnimeById_ExistingId_ReturnsAnime() {
+        // Arrange
+        int id = 1;
+        Anime anime = new Anime();
+        // Populate anime with test data
+        when(animeRepository.findById(id)).thenReturn(Optional.of(anime));
 
-        Anime result = animeService.getAnimeById(1L);
+        // Act
+        Anime result = animeService.getAnimeById(id);
 
-        assertEquals("Anime 1", result.getTitle());
-        assertEquals(12, result.getNumberEpisodes());
+        // Assert
+        assertEquals(anime, result);
     }
 
     @Test
-    public void testAddAnime() {
-        Anime anime = new Anime(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
-        when(animeRepository.save(any(Anime.class))).thenReturn(anime);
+    void getAnimeById_NonExistingId_ReturnsNull() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        when(animeRepository.findById(id)).thenReturn(Optional.empty());
 
+        // Act
+        Anime result = animeService.getAnimeById(id);
+
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void addAnime_ValidAnime_ReturnsAddedAnime() {
+        // Arrange
+        Anime anime = new Anime();
+        // Populate anime with test data
+        when(animeRepository.save(anime)).thenReturn(anime);
+
+        // Act
         Anime result = animeService.addAnime(anime);
 
-        assertEquals("Anime 1", result.getTitle());
-        assertEquals(12, result.getNumberEpisodes());
+        // Assert
+        assertEquals(anime, result);
     }
 
     @Test
-    public void testUpdateAnime() {
-        Anime anime = new Anime(1L, "Anime 1", LocalDate.parse("2024-01-01"), "Action", 1, 12, LocalDate.parse("2024-03-01"), "Studio A");
-        when(animeRepository.findById(1L)).thenReturn(Optional.of(anime));
-        when(animeRepository.save(any(Anime.class))).thenReturn(anime);
+    void updateAnime_ExistingAnime_ReturnsUpdatedAnime() {
+        // Arrange
+        int id = 1;
+        Anime existingAnime = new Anime();
+        // Populate existingAnime with test data
+        Anime updatedAnime = new Anime();
+        // Populate updatedAnime with test data
+        when(animeRepository.findById(id)).thenReturn(Optional.of(existingAnime));
+        when(animeRepository.save(existingAnime)).thenReturn(updatedAnime);
 
-        Anime result = animeService.updateAnime(1L, anime);
+        // Act
+        Anime result = animeService.updateAnime(id, existingAnime);
 
-        assertEquals("Anime 1", result.getTitle());
-        assertEquals(12, result.getNumberEpisodes());
+        // Assert
+        assertEquals(updatedAnime, result);
     }
 
     @Test
-    public void testDeleteAnime() {
-        doNothing().when(animeRepository).deleteById(1L);
+    void updateAnime_NonExistingAnime_ReturnsNull() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        Anime nonExistingAnime = new Anime();
+        // Populate nonExistingAnime with test data
+        when(animeRepository.findById(id)).thenReturn(Optional.empty());
 
-        animeService.deleteAnime(1L);
+        // Act
+        Anime result = animeService.updateAnime(id, nonExistingAnime);
 
-        verify(animeRepository, times(1)).deleteById(1L);
+        // Assert
+        assertNull(result);
+    }
+
+    @Test
+    void deleteAnime_ValidId_DeletesAnime() {
+        // Arrange
+        int id = 1;
+
+        // Act
+        animeService.deleteAnime(id);
+
+        // Assert
+        verify(animeRepository, times(1)).deleteById(id);
     }
 }

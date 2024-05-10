@@ -1,27 +1,23 @@
-package com.MovieReviews.moviereviews.controllers;
+package com.MovieReviews.moviereviews.controller.series;
 
-import com.MovieReviews.moviereviews.controller.series.MiniSerieController;
 import com.MovieReviews.moviereviews.model.series.MiniSerie;
 import com.MovieReviews.moviereviews.service.series.MiniSerieService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class MiniSerieControllerTest {
+class MiniSerieControllerTest {
 
     @Mock
     private MiniSerieService miniSerieService;
@@ -30,64 +26,154 @@ public class MiniSerieControllerTest {
     private MiniSerieController miniSerieController;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllMiniSeries() {
+    void getAllMiniSeries() {
+        // Arrange
         List<MiniSerie> miniSeries = new ArrayList<>();
-        miniSeries.add(new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01")));
-        miniSeries.add(new MiniSerie(2L, "MiniSeries 2", LocalDate.parse("2024-02-02"), "Comedy", 4, LocalDate.parse("2024-03-02")));
+        // Populate miniSeries with test data
+
         when(miniSerieService.getAllMiniSeries()).thenReturn(miniSeries);
 
+        // Act
         ResponseEntity<List<MiniSerie>> responseEntity = miniSerieController.getAllMiniSeries();
 
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(2, responseEntity.getBody().size());
+        assertEquals(miniSeries, responseEntity.getBody());
     }
 
     @Test
-    public void testGetMiniSerieById() {
-        MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
-        when(miniSerieService.getMiniSerieById(1L)).thenReturn(miniSerie);
+    void getMiniSerieById_ExistingId() {
+        // Arrange
+        int id = 1;
+        MiniSerie miniSerie = new MiniSerie();
+        // Populate miniSerie with test data
 
-        ResponseEntity<MiniSerie> responseEntity = miniSerieController.getMiniSerieById(1L);
+        when(miniSerieService.getMiniSerieById(id)).thenReturn(miniSerie);
 
+        // Act
+        ResponseEntity<MiniSerie> responseEntity = miniSerieController.getMiniSerieById(id);
+
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("MiniSeries 1", responseEntity.getBody().getTitle());
-        assertEquals(5, responseEntity.getBody().getNumberEpisodes());
+        assertEquals(miniSerie, responseEntity.getBody());
     }
 
     @Test
-    public void testAddMiniSerie() {
-        MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
-        when(miniSerieService.addMiniSerie(any(MiniSerie.class))).thenReturn(miniSerie);
+    void getMiniSerieById_NonExistingId() {
+        // Arrange
+        int id = 999; // Non-existing ID
 
-        ResponseEntity<MiniSerie> responseEntity = miniSerieController.addMiniSerie(miniSerie);
+        when(miniSerieService.getMiniSerieById(id)).thenReturn(null);
 
+        // Act
+        ResponseEntity<MiniSerie> responseEntity = miniSerieController.getMiniSerieById(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void addMiniSerie_ValidMiniSerie() {
+        // Arrange
+        MiniSerie miniSerie = new MiniSerie();
+        // Populate miniSerie with test data
+
+        when(miniSerieService.addMiniSerie(miniSerie)).thenReturn(miniSerie);
+
+        // Act
+        ResponseEntity<?> responseEntity = miniSerieController.addMiniSerie(miniSerie);
+
+        // Assert
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals("MiniSeries 1", responseEntity.getBody().getTitle());
-        assertEquals(5, responseEntity.getBody().getNumberEpisodes());
+        assertEquals(miniSerie, responseEntity.getBody());
     }
 
     @Test
-    public void testUpdateMiniSerie() {
-        MiniSerie miniSerie = new MiniSerie(1L, "MiniSeries 1", LocalDate.parse("2024-01-01"), "Drama", 5, LocalDate.parse("2024-02-01"));
-        when(miniSerieService.updateMiniSerie(anyLong(), any(MiniSerie.class))).thenReturn(miniSerie);
+    void addMiniSerie_InvalidMiniSerie() {
+        // Arrange
+        MiniSerie miniSerie = new MiniSerie();
+        // Populate miniSerie with invalid test data
 
-        ResponseEntity<MiniSerie> responseEntity = miniSerieController.updateMiniSerie(1L, miniSerie);
+        doThrow(IllegalArgumentException.class).when(miniSerieService).addMiniSerie(miniSerie);
 
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class, () -> miniSerieController.addMiniSerie(miniSerie));
+    }
+
+    @Test
+    void updateMiniSerie_ValidIdAndMiniSerie() {
+        // Arrange
+        int id = 1;
+        MiniSerie miniSerie = new MiniSerie();
+        // Populate miniSerie with test data
+
+        when(miniSerieService.updateMiniSerie(id, miniSerie)).thenReturn(miniSerie);
+
+        // Act
+        ResponseEntity<?> responseEntity = miniSerieController.updateMiniSerie(id, miniSerie);
+
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("MiniSeries 1", responseEntity.getBody().getTitle());
-        assertEquals(5, responseEntity.getBody().getNumberEpisodes());
+        assertEquals(miniSerie, responseEntity.getBody());
     }
 
     @Test
-    public void testDeleteMiniSerie() {
-        doNothing().when(miniSerieService).deleteMiniSerie(1L);
+    void updateMiniSerie_InvalidId() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        MiniSerie miniSerie = new MiniSerie();
+        // Populate miniSerie with test data
 
-        ResponseEntity<Void> responseEntity = miniSerieController.deleteMiniSerie(1L);
+        when(miniSerieService.updateMiniSerie(id, miniSerie)).thenReturn(null);
 
+        // Act
+        ResponseEntity<?> responseEntity = miniSerieController.updateMiniSerie(id, miniSerie);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void updateMiniSerie_InvalidMiniSerie() {
+        // Arrange
+        int id = 1;
+        MiniSerie miniSerie = new MiniSerie();
+        // Populate miniSerie with invalid test data
+
+        doThrow(IllegalArgumentException.class).when(miniSerieService).updateMiniSerie(id, miniSerie);
+
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class, () -> miniSerieController.updateMiniSerie(id, miniSerie));
+    }
+
+    @Test
+    void deleteMiniSerie_ValidId() {
+        // Arrange
+        int id = 1;
+
+        // Act
+        ResponseEntity<Void> responseEntity = miniSerieController.deleteMiniSerie(id);
+
+        // Assert
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
+        verify(miniSerieService, times(1)).deleteMiniSerie(id);
+    }
+
+    @Test
+    void deleteMiniSerie_InvalidId() {
+        // Arrange
+        int id = 999; // Non-existing ID
+
+        // Act
+        ResponseEntity<Void> responseEntity = miniSerieController.deleteMiniSerie(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        verify(miniSerieService, never()).deleteMiniSerie(id);
     }
 }

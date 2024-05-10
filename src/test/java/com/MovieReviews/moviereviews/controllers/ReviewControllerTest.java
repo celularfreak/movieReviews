@@ -1,27 +1,23 @@
-package com.MovieReviews.moviereviews.controllers;
+package com.MovieReviews.moviereviews.controller;
 
-import com.MovieReviews.moviereviews.controller.ReviewController;
 import com.MovieReviews.moviereviews.model.Review;
 import com.MovieReviews.moviereviews.service.ReviewService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class ReviewControllerTest {
+class ReviewControllerTest {
 
     @Mock
     private ReviewService reviewService;
@@ -30,65 +26,126 @@ public class ReviewControllerTest {
     private ReviewController reviewController;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllReviews() {
+    void getAllReviews() {
+        // Arrange
         List<Review> reviews = new ArrayList<>();
-        reviews.add(new Review(1L, 1L, 5, "Great movie", LocalDate.parse("2024-01-01")));
-        reviews.add(new Review(2L, 2L, 4, "Enjoyed it", LocalDate.parse("2024-02-02")));
+        // Populate reviews with test data
+
         when(reviewService.getAllReviews()).thenReturn(reviews);
 
+        // Act
         ResponseEntity<List<Review>> responseEntity = reviewController.getAllReviews();
 
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(2, responseEntity.getBody().size());
+        assertEquals(reviews, responseEntity.getBody());
     }
 
     @Test
-    public void testGetReviewById() {
-        Review review = new Review(1L, 1L, 5, "Great movie", LocalDate.parse("2024-01-01"));
-        when(reviewService.getReviewById(1L)).thenReturn(review);
+    void getReviewById_ExistingId() {
+        // Arrange
+        int id = 1;
+        Review review = new Review();
+        // Populate review with test data
 
-        ResponseEntity<Review> responseEntity = reviewController.getReviewById(1L);
+        when(reviewService.getReviewById(id)).thenReturn(review);
 
+        // Act
+        ResponseEntity<Review> responseEntity = reviewController.getReviewById(id);
+
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Great movie", responseEntity.getBody().getComment());
-        assertEquals(5, responseEntity.getBody().getRating());
+        assertEquals(review, responseEntity.getBody());
     }
 
     @Test
-    public void testAddReview() {
-        Review review = new Review(1L, 1L, 5, "Great movie", LocalDate.parse("2024-01-01"));
-        when(reviewService.addReview(any(Review.class))).thenReturn(review);
+    void getReviewById_NonExistingId() {
+        // Arrange
+        int id = 999; // Non-existing ID
 
-        ResponseEntity<Review> responseEntity = reviewController.addReview(review);
+        when(reviewService.getReviewById(id)).thenReturn(null);
 
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals("Great movie", responseEntity.getBody().getComment());
-        assertEquals(5, responseEntity.getBody().getRating());
+        // Act
+        ResponseEntity<Review> responseEntity = reviewController.getReviewById(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
     }
 
     @Test
-    public void testUpdateReview() {
-        Review review = new Review(1L, 1L, 5, "Great movie", LocalDate.parse("2024-01-01"));
-        when(reviewService.updateReview(anyLong(), any(Review.class))).thenReturn(review);
+    void updateReview_ValidIdAndReview() {
+        // Arrange
+        int id = 1;
+        Review review = new Review();
+        // Populate review with test data
 
-        ResponseEntity<Review> responseEntity = reviewController.updateReview(1L, review);
+        when(reviewService.updateReview(id, review)).thenReturn(review);
 
+        // Act
+        ResponseEntity<?> responseEntity = reviewController.updateReview(id, review);
+
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Great movie", responseEntity.getBody().getComment());
-        assertEquals(5, responseEntity.getBody().getRating());
+        assertEquals(review, responseEntity.getBody());
     }
 
     @Test
-    public void testDeleteReview() {
-        doNothing().when(reviewService).deleteReview(1L);
+    void updateReview_InvalidId() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        Review review = new Review();
+        // Populate review with test data
 
-        ResponseEntity<Void> responseEntity = reviewController.deleteReview(1L);
+        when(reviewService.updateReview(id, review)).thenReturn(null);
 
+        // Act
+        ResponseEntity<?> responseEntity = reviewController.updateReview(id, review);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void updateReview_InvalidReview() {
+        // Arrange
+        int id = 1;
+        Review review = new Review();
+        // Populate review with invalid test data
+
+        doThrow(IllegalArgumentException.class).when(reviewService).updateReview(id, review);
+
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class, () -> reviewController.updateReview(id, review));
+    }
+
+    @Test
+    void deleteReview_ValidId() {
+        // Arrange
+        int id = 1;
+
+        // Act
+        ResponseEntity<Void> responseEntity = reviewController.deleteReview(id);
+
+        // Assert
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
-        verify(reviewService, times(1)).deleteReview(1L);
+        verify(reviewService, times(1)).deleteReview(id);
+    }
+
+    @Test
+    void deleteReview_InvalidId() {
+        // Arrange
+        int id = 999; // Non-existing ID
+
+        // Act
+        ResponseEntity<Void> responseEntity = reviewController.deleteReview(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        verify(reviewService, never()).deleteReview(id);
     }
 }

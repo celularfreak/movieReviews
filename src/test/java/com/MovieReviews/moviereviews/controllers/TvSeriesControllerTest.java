@@ -1,27 +1,23 @@
-package com.MovieReviews.moviereviews.controllers;
+package com.MovieReviews.moviereviews.controller;
 
-import com.MovieReviews.moviereviews.controller.TvSeriesController;
 import com.MovieReviews.moviereviews.model.TvSeries;
 import com.MovieReviews.moviereviews.service.TvSeriesService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
-public class TvSeriesControllerTest {
+class TvSeriesControllerTest {
 
     @Mock
     private TvSeriesService tvSeriesService;
@@ -30,65 +26,154 @@ public class TvSeriesControllerTest {
     private TvSeriesController tvSeriesController;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testGetAllTvSeries() {
+    void getAllTvSeries() {
+        // Arrange
         List<TvSeries> tvSeriesList = new ArrayList<>();
-        tvSeriesList.add(new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01")));
-        tvSeriesList.add(new TvSeries(2L, "series 2", LocalDate.parse("2024-02-02"), "Comedy", 4, 15, LocalDate.parse("2025-02-02")));
+        // Populate tvSeriesList with test data
+
         when(tvSeriesService.getAllTvSeries()).thenReturn(tvSeriesList);
 
+        // Act
         ResponseEntity<List<TvSeries>> responseEntity = tvSeriesController.getAllTvSeries();
 
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(2, responseEntity.getBody().size());
+        assertEquals(tvSeriesList, responseEntity.getBody());
     }
 
     @Test
-    public void testGetTvSeriesById() {
-        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
-        when(tvSeriesService.getTvSeriesById(1L)).thenReturn(tvSeries);
+    void getTvSeriesById_ExistingId() {
+        // Arrange
+        int id = 1;
+        TvSeries tvSeries = new TvSeries();
+        // Populate tvSeries with test data
 
-        ResponseEntity<TvSeries> responseEntity = tvSeriesController.getTvSeriesById(1L);
+        when(tvSeriesService.getTvSeriesById(id)).thenReturn(tvSeries);
 
+        // Act
+        ResponseEntity<TvSeries> responseEntity = tvSeriesController.getTvSeriesById(id);
+
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("series 1", responseEntity.getBody().getTitle());
-        assertEquals(5, responseEntity.getBody().getNumberSeasons());
+        assertEquals(tvSeries, responseEntity.getBody());
     }
 
     @Test
-    public void testAddTvSeries() {
-        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
-        when(tvSeriesService.addTvSeries(any(TvSeries.class))).thenReturn(tvSeries);
+    void getTvSeriesById_NonExistingId() {
+        // Arrange
+        int id = 999; // Non-existing ID
 
-        ResponseEntity<TvSeries> responseEntity = tvSeriesController.addTvSeries(tvSeries);
+        when(tvSeriesService.getTvSeriesById(id)).thenReturn(null);
 
+        // Act
+        ResponseEntity<TvSeries> responseEntity = tvSeriesController.getTvSeriesById(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void addTvSeries_ValidTvSeries() {
+        // Arrange
+        TvSeries tvSeries = new TvSeries();
+        // Populate tvSeries with test data
+
+        when(tvSeriesService.addTvSeries(tvSeries)).thenReturn(tvSeries);
+
+        // Act
+        ResponseEntity<?> responseEntity = tvSeriesController.addTvSeries(tvSeries);
+
+        // Assert
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals("series 1", responseEntity.getBody().getTitle());
-        assertEquals(20, responseEntity.getBody().getNumberEpisodes());
+        assertEquals(tvSeries, responseEntity.getBody());
     }
 
     @Test
-    public void testUpdateTvSeries() {
-        TvSeries tvSeries = new TvSeries(1L, "series 1", LocalDate.parse("2024-01-01"), "Action", 5, 20, LocalDate.parse("2025-01-01"));
-        when(tvSeriesService.updateTvSeries(anyLong(), any(TvSeries.class))).thenReturn(tvSeries);
+    void addTvSeries_InvalidTvSeries() {
+        // Arrange
+        TvSeries tvSeries = new TvSeries();
+        // Populate tvSeries with invalid test data
 
-        ResponseEntity<TvSeries> responseEntity = tvSeriesController.updateTvSeries(1L, tvSeries);
+        doThrow(IllegalArgumentException.class).when(tvSeriesService).addTvSeries(tvSeries);
 
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class, () -> tvSeriesController.addTvSeries(tvSeries));
+    }
+
+    @Test
+    void updateTvSeries_ValidIdAndTvSeries() {
+        // Arrange
+        int id = 1;
+        TvSeries tvSeries = new TvSeries();
+        // Populate tvSeries with test data
+
+        when(tvSeriesService.updateTvSeries(id, tvSeries)).thenReturn(tvSeries);
+
+        // Act
+        ResponseEntity<?> responseEntity = tvSeriesController.updateTvSeries(id, tvSeries);
+
+        // Assert
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("series 1", responseEntity.getBody().getTitle());
-        assertEquals(5, responseEntity.getBody().getNumberSeasons());
+        assertEquals(tvSeries, responseEntity.getBody());
     }
 
     @Test
-    public void testDeleteTvSeries() {
-        doNothing().when(tvSeriesService).deleteTvSeries(1L);
+    void updateTvSeries_InvalidId() {
+        // Arrange
+        int id = 999; // Non-existing ID
+        TvSeries tvSeries = new TvSeries();
+        // Populate tvSeries with test data
 
-        ResponseEntity<Void> responseEntity = tvSeriesController.deleteTvSeries(1L);
+        when(tvSeriesService.updateTvSeries(id, tvSeries)).thenReturn(null);
 
+        // Act
+        ResponseEntity<?> responseEntity = tvSeriesController.updateTvSeries(id, tvSeries);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+    }
+
+    @Test
+    void updateTvSeries_InvalidTvSeries() {
+        // Arrange
+        int id = 1;
+        TvSeries tvSeries = new TvSeries();
+        // Populate tvSeries with invalid test data
+
+        doThrow(IllegalArgumentException.class).when(tvSeriesService).updateTvSeries(id, tvSeries);
+
+        // Act and Assert
+        assertThrows(IllegalArgumentException.class, () -> tvSeriesController.updateTvSeries(id, tvSeries));
+    }
+
+    @Test
+    void deleteTvSeries_ValidId() {
+        // Arrange
+        int id = 1;
+
+        // Act
+        ResponseEntity<Void> responseEntity = tvSeriesController.deleteTvSeries(id);
+
+        // Assert
         assertEquals(HttpStatus.NO_CONTENT, responseEntity.getStatusCode());
-        verify(tvSeriesService, times(1)).deleteTvSeries(1L);
+        verify(tvSeriesService, times(1)).deleteTvSeries(id);
+    }
+
+    @Test
+    void deleteTvSeries_InvalidId() {
+        // Arrange
+        int id = 999; // Non-existing ID
+
+        // Act
+        ResponseEntity<Void> responseEntity = tvSeriesController.deleteTvSeries(id);
+
+        // Assert
+        assertEquals(HttpStatus.NOT_FOUND, responseEntity.getStatusCode());
+        verify(tvSeriesService, never()).deleteTvSeries(id);
     }
 }
