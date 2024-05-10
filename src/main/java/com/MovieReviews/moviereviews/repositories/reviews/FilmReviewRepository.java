@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface FilmReviewRepository extends JpaRepository<FilmReview, Integer> {
 
+    Optional<Object> findByUsernameAndFilmId(String username, int filmId);
 }
 

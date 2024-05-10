@@ -47,6 +47,9 @@ public class FilmReviewService {
     }
 
     private void validateFilmReview(FilmReview filmReview) {
-        // Puedes agregar validaciones específicas para las revisiones de películas si es necesario
+
+        if (filmReviewRepository.findByUsernameAndFilmId(filmReview.getUsername(), filmReview.getFilmId()).isPresent()) {
+            throw new IllegalArgumentException("Ya has añadido una reseña para esta película.");
+        }
     }
 }

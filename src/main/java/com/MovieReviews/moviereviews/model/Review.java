@@ -32,7 +32,6 @@ public class Review {
 
     @NotNull(message = "La fecha de la review no puede ser nula")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate launchDate;
     private LocalDate reviewDate;
 
     public Review(String username, int rating, String comment, LocalDate reviewDate) {

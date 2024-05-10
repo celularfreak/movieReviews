@@ -42,13 +42,11 @@ public class FilmReviewController {
     }
 
     @PostMapping("/addFilmReview")
-    public ResponseEntity<?> addFilmReview(@RequestParam @NotNull @Pattern(regexp = "^[1-9][0-9]*$") int filmId,
-                                           @Valid @RequestBody FilmReview filmReview) {
+    public ResponseEntity<?> addFilmReview(@Valid @RequestBody FilmReview filmReview) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
 
-            filmReview.setFilmId(filmId);
             filmReview.setUsername(username);
             FilmReview addedFilmReview = filmReviewService.addFilmReview(filmReview);
 

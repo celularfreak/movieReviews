@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface TvSeriesReviewRepository extends JpaRepository<TvSeriesReview, Integer> {
 
+    Optional<Object> findByUsernameAndTvSeriesId(String username, int tvSeriesId);
 }
 

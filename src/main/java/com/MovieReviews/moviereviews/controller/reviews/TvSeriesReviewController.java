@@ -42,13 +42,11 @@ public class TvSeriesReviewController {
     }
 
     @PostMapping("/addTvSeriesReview")
-    public ResponseEntity<?> addTvSeriesReview(@RequestParam @NotNull @Pattern(regexp = "^[1-9][0-9]*$") int tvSeriesId,
-                                               @Valid @RequestBody TvSeriesReview tvSeriesReview) {
+    public ResponseEntity<?> addTvSeriesReview(@Valid @RequestBody TvSeriesReview tvSeriesReview) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
 
-            tvSeriesReview.setTvSeriesId(tvSeriesId);
             tvSeriesReview.setUsername(username);
             TvSeriesReview addedTvSeriesReview = tvSeriesReviewService.addTvSeriesReview(tvSeriesReview);
 

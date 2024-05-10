@@ -47,6 +47,9 @@ public class TvSeriesReviewService {
     }
 
     private void validateTvSeriesReview(TvSeriesReview tvSeriesReview) {
-        // Puedes agregar validaciones específicas para las revisiones de series de televisión si es necesario
+
+        if (tvSeriesReviewRepository.findByUsernameAndTvSeriesId(tvSeriesReview.getUsername(), tvSeriesReview.getTvSeriesId()).isPresent()) {
+            throw new IllegalArgumentException("You have already added a review for this tv series.");
+        }
     }
 }
