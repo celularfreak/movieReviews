@@ -38,7 +38,6 @@ public class TvSeries {
     @Min(value = 1, message = "El número de episodios debe ser mayor a 0")
     private int numberEpisodes;
 
-    @NotNull(message = "La fecha de finalizacion no puede ser nula")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate finishDate;
 

@@ -45,14 +45,16 @@ public class SecurityConfig {
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/api/login/**").permitAll()
-                //.requestMatchers("/films/**").permitAll()//
                 .requestMatchers("/tv-series/**").permitAll()
                 .requestMatchers(("/reviews/**")).permitAll()
                 .requestMatchers(("/animes/**")).permitAll()
-
-                .requestMatchers(GET, "/films").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers(("/films/**")).permitAll()
+                .requestMatchers( "/film-reviews/**").permitAll()
+               /* .requestMatchers(GET, "/films").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers( "/films").hasAnyAuthority("ROLE_ADMIN")
-                .requestMatchers( "/film-reviews/**").hasAnyAuthority("ROLE_ADMIN")
+                .requestMatchers( "/film-reviews/**").hasAnyAuthority("ROLE_ADMIN")*/
+                .requestMatchers("/v3/api-docs/**").permitAll()
+                .requestMatchers("/swagger-ui/**").permitAll()
                 //.requestMatchers(GET, "/tv-series").hasAnyAuthority("ROLE_ADMIN")//
                 .requestMatchers("/error/**").permitAll()
                 .anyRequest().authenticated());
