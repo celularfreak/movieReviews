@@ -1,9 +1,11 @@
 package com.MovieReviews.moviereviews.model;
 
+import com.MovieReviews.moviereviews.model.reviews.TvSeriesReview;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import java.util.List;
 
 import java.time.LocalDate;
 
@@ -25,10 +27,11 @@ public class TvSeries {
 
     @NotNull(message = "La fecha de lanzamiento no puede ser nula")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @PastOrPresent(message = "La fecha de lanzamiento debe ser en el pasado o en el presente")
     private LocalDate launchDate;
 
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z]+(,[a-zA-Z]+)*$", message = "El género debe ser una palabra o varias separadas por comas")
+    @Pattern(regexp = "^[a-zA-Z\\s,]{1,100}$", message = "El género debe tener entre 1 y 100 letras y admitir espacios y comas")
     private String genre;
     
    @Min(value = 1, message = "El número de temporadas debe ser mayor a 0")
@@ -38,9 +41,11 @@ public class TvSeries {
     @Min(value = 1, message = "El número de episodios debe ser mayor a 0")
     private int numberEpisodes;
 
-    @NotNull(message = "La fecha de finalizacion no puede ser nula")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate finishDate;
+
+    @OneToMany(mappedBy = "tvSeriesId", cascade = CascadeType.ALL)
+    private List<TvSeriesReview> reviews;
 
     public TvSeries( String title,  LocalDate launchDate,  String genre,
                      int numberSeasons,  int numberEpisodes, LocalDate finishDate) {
