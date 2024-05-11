@@ -1,6 +1,7 @@
 package com.MovieReviews.moviereviews.service.reviews;
 
 import com.MovieReviews.moviereviews.model.reviews.TvSeriesReview;
+import com.MovieReviews.moviereviews.repositories.TvSeriesRepository;
 import com.MovieReviews.moviereviews.repositories.reviews.TvSeriesReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,12 @@ import java.util.List;
 public class TvSeriesReviewService {
 
     private final TvSeriesReviewRepository tvSeriesReviewRepository;
+    private final TvSeriesRepository tvSeriesRepository;
 
     @Autowired
-    public TvSeriesReviewService(TvSeriesReviewRepository tvSeriesReviewRepository) {
+    public TvSeriesReviewService(TvSeriesReviewRepository tvSeriesReviewRepository, TvSeriesRepository tvSeriesRepository) {
         this.tvSeriesReviewRepository = tvSeriesReviewRepository;
+        this.tvSeriesRepository = tvSeriesRepository;
     }
 
     public List<TvSeriesReview> getAllTvSeriesReviews() {
@@ -47,11 +50,11 @@ public class TvSeriesReviewService {
     }
 
     private void validateTvSeriesReview(TvSeriesReview tvSeriesReview) {
-        if (tvSeriesReviewRepository.findByTvSeriesId(tvSeriesReview.getTvSeriesId()).isEmpty()) {
-            throw new IllegalArgumentException("The tv series does not exist.");
+        if(!tvSeriesRepository.existsById(tvSeriesReview.getTvSeriesId())) {
+            throw new IllegalArgumentException("La serie no existe.");
         }
         if (tvSeriesReviewRepository.findByUsernameAndTvSeriesId(tvSeriesReview.getUsername(), tvSeriesReview.getTvSeriesId()).isPresent()) {
-            throw new IllegalArgumentException("You have already added a review for this tv series.");
+            throw new IllegalArgumentException("Ya has hecho una reseña de esta serie.");
         }
     }
 }
