@@ -36,6 +36,7 @@ public class Film {
     @Pattern(regexp = "^[a-zA-Z]+(,[a-zA-Z]+)*$", message = "El género debe ser una palabra o varias separadas por comas")
     private String genre;
 
+
     public Film(@NonNull String title, @NonNull String director, LocalDate launchDate, @NonNull String genre) {
         this.title = title;
         this.director = director;

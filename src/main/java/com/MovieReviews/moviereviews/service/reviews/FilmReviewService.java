@@ -1,6 +1,7 @@
 package com.MovieReviews.moviereviews.service.reviews;
 
 import com.MovieReviews.moviereviews.model.reviews.FilmReview;
+import com.MovieReviews.moviereviews.repositories.FilmRepository;
 import com.MovieReviews.moviereviews.repositories.reviews.FilmReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,12 @@ import java.util.List;
 public class FilmReviewService {
 
     private final FilmReviewRepository filmReviewRepository;
+    private final FilmRepository filmRepository;
 
     @Autowired
-    public FilmReviewService(FilmReviewRepository filmReviewRepository) {
+    public FilmReviewService(FilmReviewRepository filmReviewRepository, FilmRepository filmRepository) {
         this.filmReviewRepository = filmReviewRepository;
+        this.filmRepository = filmRepository;
     }
 
     public List<FilmReview> getAllFilmReviews() {
@@ -46,8 +49,9 @@ public class FilmReviewService {
         filmReviewRepository.deleteById(id);
     }
 
+
     private void validateFilmReview(FilmReview filmReview) {
-        if (filmReviewRepository.findByFilmId(filmReview.getFilmId()).isEmpty()) {
+        if (!filmRepository.existsById(filmReview.getFilmId())) {
             throw new IllegalArgumentException("La película no existe.");
         }
         if (filmReviewRepository.findByUsernameAndFilmId(filmReview.getUsername(), filmReview.getFilmId()).isPresent()) {
