@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class FilmReview extends Review {
 
     @NotNull(message = "El id de la película no puede ser nulo")
