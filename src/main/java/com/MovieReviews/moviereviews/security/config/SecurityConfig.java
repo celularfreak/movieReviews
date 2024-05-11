@@ -50,6 +50,8 @@ public class SecurityConfig {
                 .requestMatchers(("/animes/**")).permitAll()
                 .requestMatchers(("/films/**")).permitAll()
                 .requestMatchers( "/film-reviews/**").permitAll()
+                .requestMatchers("/tv-series-reviews/**").permitAll()
+                .requestMatchers("/anime-reviews/**").permitAll()
                /* .requestMatchers(GET, "/films").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers( "/films").hasAnyAuthority("ROLE_ADMIN")
                 .requestMatchers( "/film-reviews/**").hasAnyAuthority("ROLE_ADMIN")*/

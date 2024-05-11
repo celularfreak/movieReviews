@@ -1,7 +1,10 @@
 package com.MovieReviews.moviereviews.model;
 
+import com.MovieReviews.moviereviews.model.reviews.FilmReview;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
+import java.util.List;
 import lombok.*;
 import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,12 +33,15 @@ public class Film {
 
     @NotNull(message = "La fecha de lanzamiento no puede ser nula")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @PastOrPresent(message = "La fecha de lanzamiento debe ser en el pasado o en el presente")
     private LocalDate launchDate;
 
     @NotNull
-    @Pattern(regexp = "^[a-zA-Z]+(,[a-zA-Z]+)*$", message = "El género debe ser una palabra o varias separadas por comas")
+    @Pattern(regexp = "^[a-zA-Z\\s,]{1,100}$", message = "El género debe tener entre 1 y 100 letras y admitir espacios y comas")
     private String genre;
 
+    @OneToMany(mappedBy = "filmId", cascade = CascadeType.ALL)
+    private List<FilmReview> reviews;
 
     public Film(@NonNull String title, @NonNull String director, LocalDate launchDate, @NonNull String genre) {
         this.title = title;

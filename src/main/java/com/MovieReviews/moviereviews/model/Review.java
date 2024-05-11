@@ -32,6 +32,7 @@ public class Review {
 
     @NotNull(message = "La fecha de la review no puede ser nula")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @PastOrPresent(message = "La fecha de la review debe ser en el pasado o en el presente")
     private LocalDate reviewDate;
 
 
