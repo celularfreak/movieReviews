@@ -1,7 +1,8 @@
 package com.MovieReviews.moviereviews.controller;
 
-import java.time.LocalDate;
+import com.MovieReviews.moviereviews.model.Film;
 import com.MovieReviews.moviereviews.model.Review;
+import com.MovieReviews.moviereviews.service.FilmService;
 import com.MovieReviews.moviereviews.service.ReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,12 @@ import java.util.List;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final FilmService filmService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService) {
+    public ReviewController(ReviewService reviewService, FilmService filmService) {
         this.reviewService = reviewService;
+        this.filmService = filmService;
     }
 
     @GetMapping
@@ -28,13 +31,33 @@ public class ReviewController {
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public ResponseEntity<Review> getReviewById(@PathVariable int id) {
         Review review = reviewService.getReviewById(id);
         if (review != null) {
             return new ResponseEntity<>(review, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/search/username/{username}")
+    public ResponseEntity<Review> getReviewByUsername(@PathVariable String username) {
+        Review review = reviewService.getReviewByUsername(username);
+        if (review != null) {
+            return new ResponseEntity<>(review, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/search/film/{film}")
+    public ResponseEntity<List<Film>> searchReviewByFilm(@RequestParam String title) {
+        List<Film> films = filmService.searchFilms(title);
+        if(films.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(films, HttpStatus.OK);
         }
     }
 
@@ -57,4 +80,5 @@ public class ReviewController {
         reviewService.deleteReview(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

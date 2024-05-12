@@ -54,4 +54,32 @@ public class TvSeriesService {
             throw new IllegalArgumentException("Ya existe una serie con ese título.");
         }
     }
+
+    public List<TvSeries> searchTvSeries(String title) {
+        return tvSeriesRepository.findByTitleContaining(title);
+    }
+
+    public List<TvSeries> searchTvSeriesByEpisodes(int episodes) {
+        return tvSeriesRepository.findByNumberEpisodes(episodes);
+    }
+
+    public List<TvSeries> searchTvSeriesBySeasons(int seasons) {
+        return tvSeriesRepository.findByNumberSeasons(seasons);
+    }
+
+    public List<TvSeries> searchTvSeriesByGenre(String genre) {
+        return tvSeriesRepository.findByGenre(genre);
+    }
+
+    public Integer calculateAverageSeasons() {
+        return tvSeriesRepository.calculateAverageSeasons();
+    }
+
+    public Integer calculateAverageEpisodes() {
+        return tvSeriesRepository.calculateAverageEpisodes();
+    }
+
+    public Integer calculateAverageEpisodesPerSeason() {
+        return calculateAverageEpisodes() / calculateAverageSeasons();
+    }
 }
