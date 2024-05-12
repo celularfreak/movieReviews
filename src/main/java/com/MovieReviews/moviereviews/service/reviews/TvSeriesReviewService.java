@@ -57,4 +57,8 @@ public class TvSeriesReviewService {
             throw new IllegalArgumentException("Ya has hecho una reseña de esta serie.");
         }
     }
+
+    public double calculateAverageRatingForTvSeries(int tvSeriesId) {
+        return tvSeriesReviewRepository.findAverageRatingByTvSeriesId(tvSeriesId);
+    }
 }

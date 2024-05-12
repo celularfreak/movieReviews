@@ -2,8 +2,10 @@ package com.MovieReviews.moviereviews.controller;
 
 import com.MovieReviews.moviereviews.model.Film;
 import com.MovieReviews.moviereviews.model.Review;
+import com.MovieReviews.moviereviews.model.TvSeries;
 import com.MovieReviews.moviereviews.service.FilmService;
 import com.MovieReviews.moviereviews.service.ReviewService;
+import com.MovieReviews.moviereviews.service.TvSeriesService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,11 +20,13 @@ public class ReviewController {
 
     private final ReviewService reviewService;
     private final FilmService filmService;
+    private final TvSeriesService tvSeriesService;
 
     @Autowired
-    public ReviewController(ReviewService reviewService, FilmService filmService) {
+    public ReviewController(ReviewService reviewService, FilmService filmService, TvSeriesService tvSeriesService) {
         this.reviewService = reviewService;
         this.filmService = filmService;
+        this.tvSeriesService = tvSeriesService;
     }
 
     @GetMapping
@@ -58,6 +62,16 @@ public class ReviewController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(films, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/search/tv-serie/{tvserie}")
+    public ResponseEntity<List<TvSeries>> searchReviewByTvSeries(@RequestParam String title) {
+        List<TvSeries> tvSeries = tvSeriesService.searchTvSeries(title);
+        if(tvSeries.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(tvSeries, HttpStatus.OK);
         }
     }
 

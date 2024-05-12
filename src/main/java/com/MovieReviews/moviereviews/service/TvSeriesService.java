@@ -1,6 +1,8 @@
 package com.MovieReviews.moviereviews.service;
 
 import com.MovieReviews.moviereviews.model.TvSeries;
+import com.MovieReviews.moviereviews.model.series.Anime;
+import com.MovieReviews.moviereviews.model.series.MiniSerie;
 import com.MovieReviews.moviereviews.repositories.TvSeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,4 +84,9 @@ public class TvSeriesService {
     public Integer calculateAverageEpisodesPerSeason() {
         return calculateAverageEpisodes() / calculateAverageSeasons();
     }
+
+    public TvSeries findTvSeriesByTitle(String title) {
+        return (TvSeries) tvSeriesRepository.findByTitle(title).orElse(null);
+    }
+
 }

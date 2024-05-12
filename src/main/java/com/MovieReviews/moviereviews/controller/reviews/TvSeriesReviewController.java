@@ -1,6 +1,10 @@
 package com.MovieReviews.moviereviews.controller.reviews;
 
+import com.MovieReviews.moviereviews.model.TvSeries;
 import com.MovieReviews.moviereviews.model.reviews.TvSeriesReview;
+import com.MovieReviews.moviereviews.model.series.Anime;
+import com.MovieReviews.moviereviews.model.series.MiniSerie;
+import com.MovieReviews.moviereviews.service.TvSeriesService;
 import com.MovieReviews.moviereviews.service.reviews.TvSeriesReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +21,12 @@ import java.util.List;
 public class TvSeriesReviewController {
 
     private final TvSeriesReviewService tvSeriesReviewService;
+    private final TvSeriesService tvSeriesService;
 
     @Autowired
-    public TvSeriesReviewController(TvSeriesReviewService tvSeriesReviewService) {
+    public TvSeriesReviewController(TvSeriesReviewService tvSeriesReviewService, TvSeriesService tvSeriesService) {
         this.tvSeriesReviewService = tvSeriesReviewService;
+        this.tvSeriesService = tvSeriesService;
     }
 
     @GetMapping
@@ -72,5 +78,18 @@ public class TvSeriesReviewController {
     public ResponseEntity<Void> deleteTvSeriesReview(@PathVariable int id) {
         tvSeriesReviewService.deleteTvSeriesReview(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/average-rating/{title}")
+    public ResponseEntity<Double> calculateAverageRatingForTVSeriesByTitle(@PathVariable String title) {
+        TvSeries Serie = tvSeriesService.findTvSeriesByTitle(title);
+        TvSeries anime = (Anime) tvSeriesService.findTvSeriesByTitle(title);
+        TvSeries miniSerie = (MiniSerie) tvSeriesService.findTvSeriesByTitle(title);
+        if (Serie != null || anime != null || miniSerie != null) {
+            int tvSeriesId = Serie.getId();
+            return new ResponseEntity<>(tvSeriesReviewService.calculateAverageRatingForTvSeries(tvSeriesId), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
