@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reviews/tv-series-reviews")
+@RequestMapping("/tv-series-reviews")
 public class TvSeriesReviewController {
 
     private final TvSeriesReviewService tvSeriesReviewService;

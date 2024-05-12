@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tv-series/animes")
+@RequestMapping("/animes")
 public class AnimeController {
 
     private final AnimeService animeService;
