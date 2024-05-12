@@ -21,8 +21,8 @@ public class Review {
 
     private String username;
 
-    @Min(value = 0)
-    @Max(value = 10)
+    @Min(value = 0, message = "El rating debe ser mayor o igual a 0")
+    @Max(value = 10, message = "El rating debe ser menor o igual a 10")
     private int rating;
 
     @NotNull

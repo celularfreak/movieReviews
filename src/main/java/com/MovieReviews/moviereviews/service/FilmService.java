@@ -4,7 +4,6 @@ import com.MovieReviews.moviereviews.model.Film;
 import com.MovieReviews.moviereviews.repositories.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -52,4 +51,21 @@ public class FilmService {
             throw new IllegalArgumentException("Ya existe una película con ese título.");
         }
     }
+
+    public List<Film> searchFilms(String title) {
+        return filmRepository.findByTitleContaining(title);
+    }
+
+    public List<Film> searchFilmsByGenre(String genre) {
+        return filmRepository.findByGenre(genre);
+    }
+
+    public List<Film> searchFilmsByDirector(String director) {
+        return filmRepository.findByDirector(director);
+    }
+
+    public Film findFilmByTitle(String title) {
+        return (Film) filmRepository.findByTitle(title).orElse(null);
+    }
+
 }

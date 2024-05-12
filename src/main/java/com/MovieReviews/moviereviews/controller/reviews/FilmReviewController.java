@@ -1,6 +1,8 @@
 package com.MovieReviews.moviereviews.controller.reviews;
 
+import com.MovieReviews.moviereviews.model.Film;
 import com.MovieReviews.moviereviews.model.reviews.FilmReview;
+import com.MovieReviews.moviereviews.service.FilmService;
 import com.MovieReviews.moviereviews.service.reviews.FilmReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,12 @@ import java.util.List;
 public class FilmReviewController {
 
     private final FilmReviewService filmReviewService;
+    private final FilmService filmService;
 
     @Autowired
-    public FilmReviewController(FilmReviewService reviewService, FilmReviewService filmReviewService) {
+    public FilmReviewController(FilmReviewService filmReviewService, FilmService filmService) {
         this.filmReviewService = filmReviewService;
+        this.filmService = filmService;
     }
 
     @GetMapping
@@ -39,7 +43,7 @@ public class FilmReviewController {
         }
     }
 
-    @PostMapping("/addFilmReview")
+    @PostMapping("/add")
     public ResponseEntity<?> addFilmReview(@Valid @RequestBody FilmReview filmReview) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -72,5 +76,16 @@ public class FilmReviewController {
     public ResponseEntity<Void> deleteFilmReview(@PathVariable int id) {
         filmReviewService.deleteFilmReview(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/average-rating/{title}")
+    public ResponseEntity<Double> calculateAverageRatingForFilmByTitle(@PathVariable String title) {
+        Film film = filmService.findFilmByTitle(title);
+        if (film != null) {
+            int filmId = film.getId();
+            return new ResponseEntity<>(filmReviewService.calculateAverageRatingForFilm(filmId), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }

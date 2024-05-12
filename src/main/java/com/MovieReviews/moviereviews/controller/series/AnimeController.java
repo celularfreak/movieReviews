@@ -27,7 +27,7 @@ public class AnimeController {
         return new ResponseEntity<>(animes, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public ResponseEntity<Anime> getAnimeById(@PathVariable int id) {
         Anime anime = animeService.getAnimeById(id);
         if (anime != null) {
@@ -37,7 +37,17 @@ public class AnimeController {
         }
     }
 
-    @PostMapping
+    @GetMapping("/search/animationStudio/{animationStudio}")
+    public ResponseEntity<List<Anime>> searchAnimesByAnimationStudio(@RequestParam String animationStudio) {
+        List<Anime> animes = animeService.searchAnimesByAnimationStudio(animationStudio);
+        if(animes.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(animes, HttpStatus.OK);
+        }
+    }
+
+    @PostMapping("/add")
     public ResponseEntity<?> addAnime(@Valid @RequestBody Anime anime) {
         try {
             Anime addedAnime = animeService.addAnime(anime);

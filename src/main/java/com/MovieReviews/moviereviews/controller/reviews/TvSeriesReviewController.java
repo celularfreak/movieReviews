@@ -39,7 +39,7 @@ public class TvSeriesReviewController {
         }
     }
 
-    @PostMapping("/addTvSeriesReview")
+    @PostMapping("/add")
     public ResponseEntity<?> addTvSeriesReview(@Valid @RequestBody TvSeriesReview tvSeriesReview) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -38,7 +38,7 @@ public class MiniSerieController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<?> addMiniSerie(@Valid @RequestBody MiniSerie miniSerie) {
         try {
             MiniSerie addedMiniSerie = miniSerieService.addMiniSerie(miniSerie);

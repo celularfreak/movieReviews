@@ -52,5 +52,8 @@ public class MiniSerieService {
         if (miniSerieRepository.findByTitle(miniSerie.getTitle()).isPresent()) {
             throw new IllegalArgumentException("Ya existe una miniserie con ese título.");
         }
+        if (miniSerie.getFinishDate() == null) {
+            throw new IllegalArgumentException("La miniserie debe tener una fecha de finalización.");
+        }
     }
 }

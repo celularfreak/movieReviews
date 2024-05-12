@@ -1,6 +1,7 @@
 package com.MovieReviews.moviereviews.service;
 
 import com.MovieReviews.moviereviews.model.Review;
+import com.MovieReviews.moviereviews.repositories.FilmRepository;
 import com.MovieReviews.moviereviews.repositories.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,10 +12,12 @@ import java.util.List;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final FilmRepository filmRepository;
 
     @Autowired
-    public ReviewService(ReviewRepository reviewRepository) {
+    public ReviewService(ReviewRepository reviewRepository, FilmRepository filmRepository) {
         this.reviewRepository = reviewRepository;
+        this.filmRepository = filmRepository;
     }
 
     public List<Review> getAllReviews() {
@@ -43,5 +46,10 @@ public class ReviewService {
 
     private void validateReview(Review review) {
     }
+
+    public Review getReviewByUsername(String username) {
+        return reviewRepository.findByUsername(username);
+    }
+
 }
 

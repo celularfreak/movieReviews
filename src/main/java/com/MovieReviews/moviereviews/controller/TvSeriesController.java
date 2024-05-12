@@ -27,7 +27,7 @@ public class TvSeriesController {
         return new ResponseEntity<>(tvSeriesList, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("search/{id}")
     public ResponseEntity<TvSeries> getTvSeriesById(@PathVariable int id) {
         TvSeries tvSeries = tvSeriesService.getTvSeriesById(id);
         if (tvSeries != null) {
@@ -37,7 +37,48 @@ public class TvSeriesController {
         }
     }
 
-    @PostMapping
+    @GetMapping("/search/title/{title}")
+    public ResponseEntity<List<TvSeries>> searchTvSeries(@RequestParam String title) {
+        List<TvSeries> tvSeriesList = tvSeriesService.searchTvSeries(title);
+        if (tvSeriesList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(tvSeriesList, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/search/genre/{genre}")
+public ResponseEntity<List<TvSeries>> searchTvSeriesByGenre(@RequestParam String genre) {
+        List<TvSeries> tvSeriesList = tvSeriesService.searchTvSeriesByGenre(genre);
+        if(tvSeriesList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(tvSeriesList, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/search/seasons/{seasons}")
+public ResponseEntity<List<TvSeries>> searchTvSeriesBySeasons(@RequestParam int seasons) {
+        List<TvSeries> tvSeriesList = tvSeriesService.searchTvSeriesBySeasons(seasons);
+        if(tvSeriesList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(tvSeriesList, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/search/episodes/{episodes}")
+public ResponseEntity<List<TvSeries>> searchTvSeriesByEpisodes(@RequestParam int episodes) {
+        List<TvSeries> tvSeriesList = tvSeriesService.searchTvSeriesByEpisodes(episodes);
+        if(tvSeriesList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(tvSeriesList, HttpStatus.OK);
+        }
+    }
+
+
+    @PostMapping("/add")
     public ResponseEntity<?> addTvSeries(@Valid @RequestBody TvSeries tvSeries) {
         try {
             TvSeries addedTvSeries = tvSeriesService.addTvSeries(tvSeries);
@@ -66,4 +107,35 @@ public class TvSeriesController {
         tvSeriesService.deleteTvSeries(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/average-seasons")
+    public ResponseEntity<Integer> getAverageSeasons() {
+        Integer averageSeasons = tvSeriesService.calculateAverageSeasons();
+        if (averageSeasons != null) {
+            return new ResponseEntity<>(averageSeasons, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/average-episodes")
+    public ResponseEntity<Integer> getAverageEpisodes() {
+        Integer averageEpisodes = tvSeriesService.calculateAverageEpisodes();
+        if (averageEpisodes != null) {
+            return new ResponseEntity<>(averageEpisodes, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/average-episodes-per-season")
+    public ResponseEntity<Integer> getAverageEpisodesPerSeason() {
+        Integer averageEpisodesPerSeason = tvSeriesService.calculateAverageEpisodesPerSeason();
+        if (averageEpisodesPerSeason != null) {
+            return new ResponseEntity<>(averageEpisodesPerSeason, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

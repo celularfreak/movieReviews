@@ -54,4 +54,8 @@ public class AnimeService {
             throw new IllegalArgumentException("Ya existe un anime con ese título.");
         }
     }
+
+    public List<Anime> searchAnimesByAnimationStudio(String animationStudio) {
+        return animeRepository.findByAnimationStudio(animationStudio);
+    }
 }
