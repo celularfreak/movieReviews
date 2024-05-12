@@ -52,7 +52,6 @@ public class FilmService {
         }
     }
 
-
     public List<Film> searchFilms(String title) {
         return filmRepository.findByTitleContaining(title);
     }
