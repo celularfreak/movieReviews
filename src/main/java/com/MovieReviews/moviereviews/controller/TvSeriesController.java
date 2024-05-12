@@ -37,7 +37,7 @@ public class TvSeriesController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<?> addTvSeries(@Valid @RequestBody TvSeries tvSeries) {
         try {
             TvSeries addedTvSeries = tvSeriesService.addTvSeries(tvSeries);

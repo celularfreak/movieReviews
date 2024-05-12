@@ -38,7 +38,7 @@ public class FilmController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<?> addFilm(@Valid @RequestBody Film film) {
         try {
             Film addedFilm = filmService.addFilm(film);

@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/film-reviews")
+@RequestMapping("/reviews/film-reviews")
 public class FilmReviewController {
 
     private final FilmReviewService filmReviewService;
 
     @Autowired
-    public FilmReviewController(FilmReviewService reviewService, FilmReviewService filmReviewService) {
+    public FilmReviewController(FilmReviewService filmReviewService) {
         this.filmReviewService = filmReviewService;
     }
 
@@ -39,7 +39,7 @@ public class FilmReviewController {
         }
     }
 
-    @PostMapping("/addFilmReview")
+    @PostMapping("/add")
     public ResponseEntity<?> addFilmReview(@Valid @RequestBody FilmReview filmReview) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

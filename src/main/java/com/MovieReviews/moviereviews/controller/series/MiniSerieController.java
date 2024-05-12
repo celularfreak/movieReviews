@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/miniseries")
+@RequestMapping("/tv-series/miniseries")
 public class MiniSerieController {
 
     private final MiniSerieService miniSerieService;
@@ -38,7 +38,7 @@ public class MiniSerieController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<?> addMiniSerie(@Valid @RequestBody MiniSerie miniSerie) {
         try {
             MiniSerie addedMiniSerie = miniSerieService.addMiniSerie(miniSerie);

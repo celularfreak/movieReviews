@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/animes")
+@RequestMapping("/tv-series/animes")
 public class AnimeController {
 
     private final AnimeService animeService;
@@ -37,7 +37,7 @@ public class AnimeController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<?> addAnime(@Valid @RequestBody Anime anime) {
         try {
             Anime addedAnime = animeService.addAnime(anime);

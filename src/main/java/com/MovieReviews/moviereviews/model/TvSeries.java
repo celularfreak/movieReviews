@@ -34,7 +34,7 @@ public class TvSeries {
     @Pattern(regexp = "^[a-zA-Z\\s,]{1,100}$", message = "El género debe tener entre 1 y 100 letras y admitir espacios y comas")
     private String genre;
     
-   @Min(value = 1, message = "El número de temporadas debe ser mayor a 0")
+    @Min(value = 1, message = "El número de temporadas debe ser mayor a 0")
     private int numberSeasons;
 
 
@@ -42,6 +42,7 @@ public class TvSeries {
     private int numberEpisodes;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @PastOrPresent(message = "La fecha de finalización debe ser en el pasado o en el presente")
     private LocalDate finishDate;
 
     @OneToMany(mappedBy = "tvSeriesId", cascade = CascadeType.ALL)

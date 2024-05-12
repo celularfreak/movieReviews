@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tv-series-reviews")
+@RequestMapping("/reviews/tv-series-reviews")
 public class TvSeriesReviewController {
 
     private final TvSeriesReviewService tvSeriesReviewService;
@@ -39,7 +39,7 @@ public class TvSeriesReviewController {
         }
     }
 
-    @PostMapping("/addTvSeriesReview")
+    @PostMapping("/add")
     public ResponseEntity<?> addTvSeriesReview(@Valid @RequestBody TvSeriesReview tvSeriesReview) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
