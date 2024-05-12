@@ -58,4 +58,8 @@ public class FilmReviewService {
             throw new IllegalArgumentException("Ya has añadido una reseña para esta película.");
         }
     }
+
+    public double calculateAverageRatingForFilm(int filmId) {
+        return filmReviewRepository.findAverageRatingByFilmId(filmId);
+    }
 }

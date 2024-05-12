@@ -65,4 +65,8 @@ public class FilmService {
         return filmRepository.findByDirector(director);
     }
 
+    public Film findFilmByTitle(String title) {
+        return (Film) filmRepository.findByTitle(title).orElse(null);
+    }
+
 }
