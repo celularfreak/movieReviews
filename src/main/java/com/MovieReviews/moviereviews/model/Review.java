@@ -23,8 +23,6 @@ public class Review {
 
     @Min(value = 0, message = "El rating debe ser mayor o igual a 0")
     @Max(value = 10, message = "El rating debe ser menor o igual a 10")
-    @NotNull(message = "El rating no puede ser nulo")
-    @NotBlank(message = "El rating no puede estar en blanco")
     private int rating;
 
     @NotNull
