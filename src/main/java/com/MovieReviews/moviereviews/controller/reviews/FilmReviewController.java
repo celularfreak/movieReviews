@@ -33,7 +33,7 @@ public class FilmReviewController {
         return new ResponseEntity<>(filmReviews, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public ResponseEntity<FilmReview> getFilmReviewById(@PathVariable int id) {
         FilmReview filmReview = filmReviewService.getFilmReviewById(id);
         if (filmReview != null) {

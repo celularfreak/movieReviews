@@ -29,7 +29,7 @@ public class TvSeriesReviewController {
         return new ResponseEntity<>(tvSeriesReviews, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public ResponseEntity<TvSeriesReview> getTvSeriesReviewById(@PathVariable int id) {
         TvSeriesReview tvSeriesReview = tvSeriesReviewService.getTvSeriesReviewById(id);
         if (tvSeriesReview != null) {
@@ -66,7 +66,7 @@ public class TvSeriesReviewController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateTvSeriesReview(@PathVariable int id, @Valid @RequestBody TvSeriesReview tvSeriesReview) {
+    public ResponseEntity<?> addTvSeriesReview(@PathVariable int id, @Valid @RequestBody TvSeriesReview tvSeriesReview) {
         try {
             TvSeriesReview updatedTvSeriesReview = tvSeriesReviewService.updateTvSeriesReview(id, tvSeriesReview);
             if (updatedTvSeriesReview != null) {
