@@ -12,8 +12,8 @@ The different user roles will limit the functions to be performed on movies, ser
 
 ## Class and Entity Relationship Diagram
 
-<img width="700" alt="Class Diagram" src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/Class%20Diagram.png">
-<img width="700" alt="ER Diagram" src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/sql.png">
+<img width="572" alt="Class Diagram" src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/Class%20Diagram.png">
+<img width="572" alt="ER Diagram" src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/sql.png">
 
 ## Setup
 1. Clone the repository:
@@ -111,6 +111,7 @@ Here is a general overview of the controllers and routes in this project:
 | `/tv-series-reviews/add`                          | POST        | TvSeriesReviewController | `addTvSeriesReview`                    | Creates a new Tv Series Review                                     |
 | `/tv-series-reviews/{id}`                         | PUT         | TvSeriesReviewController | `addTvSeriesReview`                    | Updates a specific Review                                          |
 | `/tv-series-reviews/{id}`                         | DELETE      | TvSeriesReviewController | `deleteTvSeries`                       | Deletes a specific Review                                          |
+
 Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` while the server is running
 
 ## Some API Rules
