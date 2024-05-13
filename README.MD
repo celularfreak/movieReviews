@@ -12,9 +12,11 @@ The different user roles will limit the functions to be performed on movies, ser
 
 ## Class and Entity Relationship Diagram
 
-<img alt="Model Diagram" src="https://github.com/celularfreak/movieReviews/blob/main/assets/Model%20Diagram.png">
-<img width="572" alt="Class Diagram" src="https://github.com/celularfreak/movieReviews/blob/main/assets/Class%20Diagram.png">
-<img width="572" alt="ER Diagram" src="https://github.com/celularfreak/movieReviews/blob/main/assets/sql.png">
+<p align="center">
+    <img alt="Model Diagram" src="https://github.com/celularfreak/movieReviews/blob/main/assets/Model%20Diagram.png">
+    <img width="572" alt="Class Diagram" src="https://github.com/celularfreak/movieReviews/blob/main/assets/Class%20Diagram.png">
+    <img width="572" alt="ER Diagram" src="https://github.com/celularfreak/movieReviews/blob/main/assets/sql.png">
+</p>
 
 ## Setup
 1. Clone the repository:
