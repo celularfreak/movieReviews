@@ -37,7 +37,7 @@ public class FilmController {
     }
 
     @GetMapping("/search/title/{title}")
-    public ResponseEntity<List<Film>> searchFilms(@RequestParam String title) {
+    public ResponseEntity<List<Film>> searchFilms(@PathVariable String title) {
         List<Film> films = filmService.searchFilms(title);
         if (films.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -47,7 +47,7 @@ public class FilmController {
     }
 
     @GetMapping("/search/genre/{genre}")
-    public ResponseEntity<List<Film>> searchFilmsByGenre(@RequestParam String genre) {
+    public ResponseEntity<List<Film>> searchFilmsByGenre(@PathVariable String genre) {
         List<Film> films = filmService.searchFilmsByGenre(genre);
         if(films.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -57,7 +57,7 @@ public class FilmController {
     }
 
     @GetMapping("/search/director/{director}")
-    public ResponseEntity<List<Film>> searchFilmsByDirector(@RequestParam String director) {
+    public ResponseEntity<List<Film>> searchFilmsByDirector(@PathVariable String director) {
         List<Film> films = filmService.searchFilmsByDirector(director);
         if(films.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

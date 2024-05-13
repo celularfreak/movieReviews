@@ -33,13 +33,23 @@ public class FilmReviewController {
         return new ResponseEntity<>(filmReviews, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public ResponseEntity<FilmReview> getFilmReviewById(@PathVariable int id) {
         FilmReview filmReview = filmReviewService.getFilmReviewById(id);
         if (filmReview != null) {
             return new ResponseEntity<>(filmReview, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/search/username/{username}")
+    public ResponseEntity<List<FilmReview>> getFilmReviewByUsername(@PathVariable String username) {
+        List<FilmReview> filmReviews = filmReviewService.getFilmReviewByUsername(username);
+        if (filmReviews.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(filmReviews, HttpStatus.OK);
         }
     }
 

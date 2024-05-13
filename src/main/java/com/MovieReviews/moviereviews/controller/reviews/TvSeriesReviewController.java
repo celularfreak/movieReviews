@@ -29,13 +29,23 @@ public class TvSeriesReviewController {
         return new ResponseEntity<>(tvSeriesReviews, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search/{id}")
     public ResponseEntity<TvSeriesReview> getTvSeriesReviewById(@PathVariable int id) {
         TvSeriesReview tvSeriesReview = tvSeriesReviewService.getTvSeriesReviewById(id);
         if (tvSeriesReview != null) {
             return new ResponseEntity<>(tvSeriesReview, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/search/username/{username}")
+    public ResponseEntity<List<TvSeriesReview>> getTvSeriesReviewByUsername(@PathVariable String username) {
+        List<TvSeriesReview> tvSeriesReviews = tvSeriesReviewService.getTvSeriesReviewByUsername(username);
+        if (tvSeriesReviews.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(tvSeriesReviews, HttpStatus.OK);
         }
     }
 

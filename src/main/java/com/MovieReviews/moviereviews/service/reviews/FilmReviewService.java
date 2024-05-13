@@ -62,4 +62,8 @@ public class FilmReviewService {
     public double calculateAverageRatingForFilm(int filmId) {
         return filmReviewRepository.findAverageRatingByFilmId(filmId);
     }
+
+    public List<FilmReview> getFilmReviewByUsername(String username) {
+        return filmReviewRepository.findByUsername(username);
+    }
 }

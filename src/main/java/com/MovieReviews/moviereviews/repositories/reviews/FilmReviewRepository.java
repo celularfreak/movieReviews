@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface FilmReviewRepository extends JpaRepository<FilmReview, Integer> {
@@ -16,5 +17,7 @@ public interface FilmReviewRepository extends JpaRepository<FilmReview, Integer>
 
     @Query("SELECT AVG(fr.rating) FROM FilmReview fr WHERE fr.filmId = :filmId")
     Double findAverageRatingByFilmId(@Param("filmId") int filmId);
+
+    List<FilmReview> findByUsername(String username);
 }
 

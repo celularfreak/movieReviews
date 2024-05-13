@@ -30,7 +30,6 @@ public class FilmService {
     }
 
     public Film updateFilm(int id, Film film) {
-        validateFilm(film);
         Film existingFilm = filmRepository.findById(id).orElse(null);
         if (existingFilm != null) {
             existingFilm.setTitle(film.getTitle());
@@ -57,11 +56,11 @@ public class FilmService {
     }
 
     public List<Film> searchFilmsByGenre(String genre) {
-        return filmRepository.findByGenre(genre);
+        return filmRepository.findByGenreContaining(genre);
     }
 
     public List<Film> searchFilmsByDirector(String director) {
-        return filmRepository.findByDirector(director);
+        return filmRepository.findByDirectorContaining(director);
     }
 
     public Film findFilmByTitle(String title) {
