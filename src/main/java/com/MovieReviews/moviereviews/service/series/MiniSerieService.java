@@ -31,7 +31,7 @@ public class MiniSerieService {
     }
 
     public MiniSerie updateMiniSerie(int id, MiniSerie miniSerie) {
-        validateMiniSerie(miniSerie);
+        validateMiniSerieUpdate(miniSerie);
         MiniSerie existingMiniSerie = miniSerieRepository.findById(id).orElse(null);
         if (existingMiniSerie != null) {
             existingMiniSerie.setTitle(miniSerie.getTitle());
@@ -52,6 +52,12 @@ public class MiniSerieService {
         if (miniSerieRepository.findByTitle(miniSerie.getTitle()).isPresent()) {
             throw new IllegalArgumentException("Ya existe una miniserie con ese título.");
         }
+        if (miniSerie.getFinishDate() == null) {
+            throw new IllegalArgumentException("La miniserie debe tener una fecha de finalización.");
+        }
+    }
+
+    private void validateMiniSerieUpdate(MiniSerie miniSerie) {
         if (miniSerie.getFinishDate() == null) {
             throw new IllegalArgumentException("La miniserie debe tener una fecha de finalización.");
         }

@@ -19,12 +19,13 @@ public interface TvSeriesRepository extends JpaRepository<TvSeries, Integer> {
 
     List<TvSeries> findByNumberSeasons(int seasons);
 
-    List<TvSeries> findByGenre(String genre);
+    List<TvSeries> findByGenreContaining(String genre);
 
     @Query("SELECT AVG(ts.numberSeasons) FROM TvSeries ts")
     Integer calculateAverageSeasons();
 
     @Query("SELECT AVG(ts.numberEpisodes) FROM TvSeries ts")
     Integer calculateAverageEpisodes();
+
 
 }

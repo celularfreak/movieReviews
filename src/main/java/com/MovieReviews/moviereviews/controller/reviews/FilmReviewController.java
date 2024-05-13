@@ -43,7 +43,7 @@ public class FilmReviewController {
         }
     }
 
-    @GetMapping("/search/{username}")
+    @GetMapping("/search/username/{username}")
     public ResponseEntity<List<FilmReview>> getFilmReviewByUsername(@PathVariable String username) {
         List<FilmReview> filmReviews = filmReviewService.getFilmReviewByUsername(username);
         if (filmReviews.isEmpty()) {

@@ -30,7 +30,6 @@ public class AnimeService {
     }
 
     public Anime updateAnime(int id, Anime anime) {
-        validateAnime(anime);
         Anime existingAnime = animeRepository.findById(id).orElse(null);
         if (existingAnime != null) {
             existingAnime.setTitle(anime.getTitle());

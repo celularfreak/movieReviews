@@ -39,8 +39,7 @@ public class TvSeriesReviewController {
         }
     }
 
-    //get all reviews by username
-    @GetMapping("/search/{username}")
+    @GetMapping("/search/username/{username}")
     public ResponseEntity<List<TvSeriesReview>> getTvSeriesReviewByUsername(@PathVariable String username) {
         List<TvSeriesReview> tvSeriesReviews = tvSeriesReviewService.getTvSeriesReviewByUsername(username);
         if (tvSeriesReviews.isEmpty()) {

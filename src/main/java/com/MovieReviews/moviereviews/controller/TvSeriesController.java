@@ -38,7 +38,7 @@ public class TvSeriesController {
     }
 
     @GetMapping("/search/title/{title}")
-    public ResponseEntity<List<TvSeries>> searchTvSeries(@RequestParam String title) {
+    public ResponseEntity<List<TvSeries>> searchTvSeries(@PathVariable String title) {
         List<TvSeries> tvSeriesList = tvSeriesService.searchTvSeries(title);
         if (tvSeriesList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -48,7 +48,7 @@ public class TvSeriesController {
     }
 
     @GetMapping("/search/genre/{genre}")
-public ResponseEntity<List<TvSeries>> searchTvSeriesByGenre(@RequestParam String genre) {
+public ResponseEntity<List<TvSeries>> searchTvSeriesByGenre(@PathVariable String genre) {
         List<TvSeries> tvSeriesList = tvSeriesService.searchTvSeriesByGenre(genre);
         if(tvSeriesList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -58,7 +58,7 @@ public ResponseEntity<List<TvSeries>> searchTvSeriesByGenre(@RequestParam String
     }
 
     @GetMapping("/search/seasons/{seasons}")
-public ResponseEntity<List<TvSeries>> searchTvSeriesBySeasons(@RequestParam int seasons) {
+public ResponseEntity<List<TvSeries>> searchTvSeriesBySeasons(@PathVariable int seasons) {
         List<TvSeries> tvSeriesList = tvSeriesService.searchTvSeriesBySeasons(seasons);
         if(tvSeriesList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -68,7 +68,7 @@ public ResponseEntity<List<TvSeries>> searchTvSeriesBySeasons(@RequestParam int 
     }
 
     @GetMapping("/search/episodes/{episodes}")
-public ResponseEntity<List<TvSeries>> searchTvSeriesByEpisodes(@RequestParam int episodes) {
+public ResponseEntity<List<TvSeries>> searchTvSeriesByEpisodes(@PathVariable int episodes) {
         List<TvSeries> tvSeriesList = tvSeriesService.searchTvSeriesByEpisodes(episodes);
         if(tvSeriesList.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

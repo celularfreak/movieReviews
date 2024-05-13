@@ -38,7 +38,7 @@ public class AnimeController {
     }
 
     @GetMapping("/search/animationStudio/{animationStudio}")
-    public ResponseEntity<List<Anime>> searchAnimesByAnimationStudio(@RequestParam String animationStudio) {
+    public ResponseEntity<List<Anime>> searchAnimesByAnimationStudio(@PathVariable String animationStudio) {
         List<Anime> animes = animeService.searchAnimesByAnimationStudio(animationStudio);
         if(animes.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

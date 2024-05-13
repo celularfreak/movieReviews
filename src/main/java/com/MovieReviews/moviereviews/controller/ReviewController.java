@@ -56,7 +56,7 @@ public class ReviewController {
     }
 
     @GetMapping("/search/film/{film}")
-    public ResponseEntity<List<Film>> searchReviewByFilm(@RequestParam String title) {
+    public ResponseEntity<List<Film>> searchReviewByFilm(@PathVariable String title) {
         List<Film> films = filmService.searchFilms(title);
         if(films.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -66,7 +66,7 @@ public class ReviewController {
     }
 
     @GetMapping("/search/tv-serie/{tvserie}")
-    public ResponseEntity<List<TvSeries>> searchReviewByTvSeries(@RequestParam String title) {
+    public ResponseEntity<List<TvSeries>> searchReviewByTvSeries(@PathVariable String title) {
         List<TvSeries> tvSeries = tvSeriesService.searchTvSeries(title);
         if(tvSeries.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -31,7 +31,6 @@ public class TvSeriesService {
     }
 
     public TvSeries updateTvSeries(int id, TvSeries tvSeries) {
-        validateTvSeries(tvSeries);
         TvSeries existingTvSeries = tvSeriesRepository.findById(id).orElse(null);
         if (existingTvSeries != null) {
             existingTvSeries.setTitle(tvSeries.getTitle());
@@ -68,7 +67,7 @@ public class TvSeriesService {
     }
 
     public List<TvSeries> searchTvSeriesByGenre(String genre) {
-        return tvSeriesRepository.findByGenre(genre);
+        return tvSeriesRepository.findByGenreContaining(genre);
     }
 
     public Integer calculateAverageSeasons() {
