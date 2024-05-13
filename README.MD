@@ -14,6 +14,7 @@ The different user roles will limit the functions to be performed on movies, ser
 <p align="center">
     <img width="572" alt="ER Diagram" src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/sql.png">
 </p>
+
 ## Setup
 1. Clone the repository:
 ```
