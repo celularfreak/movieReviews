@@ -30,7 +30,7 @@ CREATE DATABASE your_database_name;
 5. In the project directory, you will find a file named `application-local-example.properties`. Rename this file to `application-local.properties`.
 6. Open `application-local.properties` and replace the placeholders with your actual MySQL credentials and database name.
 
-If you are using MySQL 8, you may need to add the following line to the `application-local.properties` file:
+If you are using MySQL, you may need to add the following line to the `application-local.properties` file:
 ```
 spring.datasource.url=jdbc:mysql://localhost:3306/your_database_name 
 spring.datasource.username=your_mysql_username
@@ -114,17 +114,26 @@ Here is a general overview of the controllers and routes in this project:
 
 Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` while the server is running
 
-## Some API Rules
-[TBC]
-
 ## Extra links
+Links to the project board and the project presentation.
 - [Project Board](https://github.com/users/celularfreak/projects/3)
 - [Presentation Slides](https://docs.google.com/presentation/d/1YKqz5Z_ZntngEx5qRdVJki83M1JWwcLPSXYrx4s30Sw/edit?usp=sharing)
 
 ## Future Work
+In the future I would like to implement a rating system between users, a “karma”, to have more interaction between them.
+I would also like to add the calculation of the average ratings of television series, since the complexity of the inheritance has made me not have time to implement it properly.
+
 Check [project board](https://github.com/users/celularfreak/projects/3) `"Furure Work"` column to know future implementations on the pipeline
 
 ## Resources
+- [Spring Lombok](https://www.baeldung.com/spring-boot-lombok)
+- [Spring JPA](https://www.baeldung.com/spring-boot-jpa)
+- [Spring MySQL](https://www.baeldung.com/spring-boot-mysql)
+- [Spring MariaDB](https://www.baeldung.com/spring-boot-mariadb)
+- [Spring Boot Bearer Authentication](https://www.baeldung.com/spring-security-bearer-token)
+- [Spring Swagger](https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api)
+- [Spring Mockito](https://www.baeldung.com/mockito)
+- [Spring  Validation](https://www.baeldung.com/spring-boot-bean-validation)
 - [Defining Unique Constraints in JPA](https://www.baeldung.com/jpa-unique-constraints)
 - [Spring Profiles](https://www.baeldung.com/spring-profiles)
-- [Documenting a Spring REST API](https://www.baeldung.com/spring-rest-openapi-documentation)
+- [Spring Boot with H2 Database](https://www.baeldung.com/spring-boot-h2-database)
