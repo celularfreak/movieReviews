@@ -43,6 +43,16 @@ public class FilmReviewController {
         }
     }
 
+    @GetMapping("/search/{username}")
+    public ResponseEntity<List<FilmReview>> getFilmReviewByUsername(@PathVariable String username) {
+        List<FilmReview> filmReviews = filmReviewService.getFilmReviewByUsername(username);
+        if (filmReviews.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(filmReviews, HttpStatus.OK);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> addFilmReview(@Valid @RequestBody FilmReview filmReview) {
         try {

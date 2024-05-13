@@ -57,4 +57,8 @@ public class TvSeriesReviewService {
             throw new IllegalArgumentException("Ya has hecho una reseña de esta serie.");
         }
     }
+
+    public List<TvSeriesReview> getTvSeriesReviewByUsername(String username) {
+        return tvSeriesReviewRepository.findByUsername(username);
+    }
 }

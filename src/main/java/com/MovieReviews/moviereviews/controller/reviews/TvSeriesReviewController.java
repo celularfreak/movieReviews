@@ -39,6 +39,17 @@ public class TvSeriesReviewController {
         }
     }
 
+    //get all reviews by username
+    @GetMapping("/search/{username}")
+    public ResponseEntity<List<TvSeriesReview>> getTvSeriesReviewByUsername(@PathVariable String username) {
+        List<TvSeriesReview> tvSeriesReviews = tvSeriesReviewService.getTvSeriesReviewByUsername(username);
+        if (tvSeriesReviews.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(tvSeriesReviews, HttpStatus.OK);
+        }
+    }
+
     @PostMapping("/add")
     public ResponseEntity<?> addTvSeriesReview(@Valid @RequestBody TvSeriesReview tvSeriesReview) {
         try {
