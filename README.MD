@@ -12,8 +12,9 @@ The different user roles will limit the functions to be performed on movies, ser
 
 ## Class and Entity Relationship Diagram
 
-<img width="572" alt="Class Diagram" src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/Class%20Diagram.png">
-<img width="572" alt="ER Diagram" src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/sql.png">
+<img alt="Model Diagram" src="https://github.com/celularfreak/movieReviews/blob/main/assets/Model%20Diagram.png">
+<img width="572" alt="Class Diagram" src="https://github.com/celularfreak/movieReviews/blob/main/assets/Class%20Diagram.png">
+<img width="572" alt="ER Diagram" src="https://github.com/celularfreak/movieReviews/blob/main/assets/sql.png">
 
 ## Setup
 1. Clone the repository:
@@ -120,7 +121,8 @@ Links to the project board and the project presentation.
 - [Presentation Slides](https://docs.google.com/presentation/d/1TNSh_OBqO9rq5QF2XTcHVYFExnJmtwsg-F6ESJS-PJo/edit?usp=sharing)
 
 ## Future Work
-In the future I would like to implement a rating system between users, a “karma”, to have more interaction between them.
+In the future I would like to implement a rating system between users, a “karma”, to have more interaction between them and add a direct relationship between users and reviews, so that users can only edit and delete their own reviews.
+
 I would also like to add the calculation of the average ratings of television series, since the complexity of the inheritance has made me not have time to implement it properly.
 
 Check [project board](https://github.com/users/celularfreak/projects/3) `"Furure Work"` column to know future implementations on the pipeline
