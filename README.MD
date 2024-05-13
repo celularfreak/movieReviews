@@ -117,7 +117,7 @@ Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` wh
 ## Extra links
 Links to the project board and the project presentation.
 - [Project Board](https://github.com/users/celularfreak/projects/3)
-- [Presentation Slides](https://docs.google.com/presentation/d/1YKqz5Z_ZntngEx5qRdVJki83M1JWwcLPSXYrx4s30Sw/edit?usp=sharing)
+- [Presentation Slides](https://docs.google.com/presentation/d/1TNSh_OBqO9rq5QF2XTcHVYFExnJmtwsg-F6ESJS-PJo/edit?usp=sharing)
 
 ## Future Work
 In the future I would like to implement a rating system between users, a “karma”, to have more interaction between them.
