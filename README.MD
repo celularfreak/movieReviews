@@ -120,7 +120,7 @@ Access the API Documentation at `http://localhost:8080/swagger-ui/index.html` wh
 ## Extra links
 Links to the project board and the project presentation.
 - [Project Board](https://github.com/users/celularfreak/projects/3)
-- [Presentation Slides](https://docs.google.com/presentation/d/1TNSh_OBqO9rq5QF2XTcHVYFExnJmtwsg-F6ESJS-PJo/edit?usp=sharing)
+- [Presentation Slides](https://docs.google.com/presentation/d/e/2PACX-1vQ5fOis1UJ82CfV3kjU49xHgotcVzGeN4tBG-zCoKNACtIHb328Yx90vFd7K2ieB8QBLJY1-1g0ckDk/pub?start=false&loop=false&delayms=3000&slide=id.g2dbe29ba61c_0_226)
 
 ## Future Work
 In the future I would like to implement a rating system between users, a “karma”, to have more interaction between them and add a direct relationship between users and reviews, so that users can only edit and delete their own reviews.
