@@ -66,7 +66,7 @@ public class TvSeriesReviewController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> addTvSeriesReview(@PathVariable int id, @Valid @RequestBody TvSeriesReview tvSeriesReview) {
+    public ResponseEntity<?> updateTvSeriesReview(@PathVariable int id, @Valid @RequestBody TvSeriesReview tvSeriesReview) {
         try {
             TvSeriesReview updatedTvSeriesReview = tvSeriesReviewService.updateTvSeriesReview(id, tvSeriesReview);
             if (updatedTvSeriesReview != null) {
