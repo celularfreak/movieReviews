@@ -11,9 +11,9 @@ Some useful queries have been added to better understand the data stored in the 
 The different user roles will limit the functions to be performed on movies, series and reviews and also on the management of users and roles.
 
 ## Class and Entity Relationship Diagram
-<p align="center">
-    <img width="572" alt="ER Diagram" src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/sql.png">
-</p>
+
+<img width="572" alt="Class Diagram"src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/Class%20Diagram.png">
+<img width="572" alt="ER Diagram" src="https://github.com/celularfreak/movieReviews/blob/final-steps/assets/sql.png">
 
 ## Setup
 1. Clone the repository:
