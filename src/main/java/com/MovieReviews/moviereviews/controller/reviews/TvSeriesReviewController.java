@@ -1,6 +1,7 @@
 package com.MovieReviews.moviereviews.controller.reviews;
 
 import com.MovieReviews.moviereviews.model.reviews.TvSeriesReview;
+import com.MovieReviews.moviereviews.repositories.reviews.TvSeriesReviewRepository;
 import com.MovieReviews.moviereviews.service.reviews.TvSeriesReviewService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +12,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tv-series-reviews")
 public class TvSeriesReviewController {
 
     private final TvSeriesReviewService tvSeriesReviewService;
+    private final TvSeriesReviewRepository tvSeriesReviewRepository;
 
     @Autowired
-    public TvSeriesReviewController(TvSeriesReviewService tvSeriesReviewService) {
+    public TvSeriesReviewController(TvSeriesReviewService tvSeriesReviewService, TvSeriesReviewRepository tvSeriesReviewRepository) {
         this.tvSeriesReviewService = tvSeriesReviewService;
+        this.tvSeriesReviewRepository = tvSeriesReviewRepository;
     }
 
     @GetMapping
@@ -82,5 +86,11 @@ public class TvSeriesReviewController {
     public ResponseEntity<Void> deleteTvSeriesReview(@PathVariable int id) {
         tvSeriesReviewService.deleteTvSeriesReview(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/average-rating/{seriesId}")
+    public ResponseEntity<Double> getAverageRatingForSeries(@PathVariable int seriesId) {
+        Optional<Double> averageRating = tvSeriesReviewRepository.findAverageRatingBySeriesId(seriesId);
+        return averageRating.map(aDouble -> new ResponseEntity<>(aDouble, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

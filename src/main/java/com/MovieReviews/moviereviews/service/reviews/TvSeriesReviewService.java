@@ -34,7 +34,7 @@ public class TvSeriesReviewService {
     }
 
     public TvSeriesReview updateTvSeriesReview(int id, TvSeriesReview tvSeriesReview) {
-        validateTvSeriesReview(tvSeriesReview);
+        validateTvSeriesReviewUpdate(tvSeriesReview);
         TvSeriesReview existingTvSeriesReview = tvSeriesReviewRepository.findById(id).orElse(null);
         if (existingTvSeriesReview != null) {
             existingTvSeriesReview.setRating(tvSeriesReview.getRating());
@@ -55,6 +55,12 @@ public class TvSeriesReviewService {
         }
         if (tvSeriesReviewRepository.findByUsernameAndTvSeriesId(tvSeriesReview.getUsername(), tvSeriesReview.getTvSeriesId()).isPresent()) {
             throw new IllegalArgumentException("Ya has hecho una reseña de esta serie.");
+        }
+    }
+
+    private void validateTvSeriesReviewUpdate(TvSeriesReview tvSeriesReview) {
+        if(!tvSeriesRepository.existsById(tvSeriesReview.getTvSeriesId())) {
+            throw new IllegalArgumentException("La serie no existe.");
         }
     }
 

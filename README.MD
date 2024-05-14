@@ -111,6 +111,7 @@ Here is a general overview of the controllers and routes in this project:
 | `/tv-series-reviews`                              | GET         | TvSeriesReviewController | `getAllTvSeriesReviews`                | Returns a list of all Reviews                                      |
 | `/tv-series-reviews/search/{username}`            | GET         | TvSeriesReviewController | `getTvSeriesReviewByUsername`          | Returns a specific Review by its Username                          |
 | `/tv-series-reviews/search/{id}`                  | GET         | TvSeriesReviewController | `getTvSeriesReviewById`                | Returns a specific Review by its ID                                |
+| `/tv-series-reviews/average-rating/{seriesId}`    | GET         | TvSeriesReviewController | `getAverageRatingForSeries`            | Returns the average rating of a Tv Series                          |
 | `/tv-series-reviews/add`                          | POST        | TvSeriesReviewController | `addTvSeriesReview`                    | Creates a new Tv Series Review                                     |
 | `/tv-series-reviews/{id}`                         | PUT         | TvSeriesReviewController | `addTvSeriesReview`                    | Updates a specific Review                                          |
 | `/tv-series-reviews/{id}`                         | DELETE      | TvSeriesReviewController | `deleteTvSeries`                       | Deletes a specific Review                                          |
