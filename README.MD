@@ -51,7 +51,7 @@ spring.jpa.hibernate.ddl-auto=create-drop
 8. Run the application: `mvn spring-boot:run`
 
 ## Technologies Used
-- Java 17
+- Java 21
 - Spring Boot
 - Maven
 - MySQL
